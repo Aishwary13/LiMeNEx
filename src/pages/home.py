@@ -4,6 +4,5 @@ from dash import html
 # dash.register_page(__name__, path='/')h
 
 layout = html.Div([
-    html.H1('This is our Home page'),
-    html.Div('This is our Home page content.'),
-])
+    
+], style={'background-color':'#1a1a1a', 'height' : '100vh'})

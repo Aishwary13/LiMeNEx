@@ -922,112 +922,6 @@ layout = html.Div(
     [   modal,
         dcc.Interval(id='initial-interval', interval=1*1000, n_intervals=0, max_intervals=1),
         dcc.Download(id="download-zip"),
-        html.Div([
-            html.Div([
-                html.Div([
-                    html.Div(
-                    [
-                        html.Label('Select Pathway', style={"text-align" : "center", "color": "#dcdcdc", "font-weight": "bold","margin-right":"3px"}),
-                        dcc.Dropdown(
-                            id='show-pathway-layout',
-                            clearable=True,
-                            placeholder="Select Specific Pathway",
-                            options=[
-                                {'label': 'None', 'value': 'None'},
-                                *[{'label': key, 'value': Main_Pathways[key]}
-                                for key in Main_Pathways.keys()]
-                            ],
-                            style= {"width" : "100%"}
-                            
-                        ),
-                    ],
-                        style={"display": "flex", "width": "33.3%"}
-                    ),
-                
-                    html.Div(
-                    [
-                        html.Label('Select Lipid Molecules', style={"text-align" : "center", "color": "#dcdcdc", "font-weight": "bold"}), ##212529
-                        dcc.Dropdown(
-                            id='show-Molecule-pathway-layout',
-                            clearable=True,
-                            placeholder="Select Lipid Molecule",
-                            options=[
-                                {'label': 'None', 'value': 'None'},
-                                *[{'label': key, 'value': Main_Molecules[key]}
-                                for key in Main_Molecules.keys()]
-                            ],
-                            style = {"width" : "100%"}
-                        ),
-                    ],
-                        style={"display": "flex", "width": "33.3%"}
-                    ),
-                    
-                    html.Div(
-                    [
-                        html.Label('Select Gene', style={"text-align" : "center", "color": "#dcdcdc", "font-weight": "bold","margin-right":"3px","margin-left":"3px"}),
-                        dcc.Dropdown(
-                            id='show-Gene-pathway-layout',
-                            clearable=True,
-                            placeholder="Select Gene",
-                            options=[
-                                {'label': 'None', 'value': 'None'},
-                                *[{'label': key, 'value': key}
-                                for key in Gene_List]
-                            ],
-                            style = {"width" : "80%"}
-                        ),
-                    ],
-                        style={"display": "flex","width": "33.3%"}
-                    )
-                ],
-                    style={"display" : "flex", "margin-bottom" : "10px"}
-                ),
-
-                html.Div(
-                    [
-                        html.Div(
-                        [
-                            html.Label('Select Start Gene',  style={"text-align" : "center", "color": "#dcdcdc", "font-weight": "bold"}),
-                            dcc.Dropdown(
-                                id='start-gene-input',
-                                clearable=True,
-                                placeholder="Select Gene",
-                                options=[
-                                    {'label': 'None', 'value': 'None'},
-                                    *[{'label': key, 'value': key}
-                                    for key in Gene_List]
-                                ],
-                                style = {"width" : "100%", }
-                            )
-                        ],
-                            style= {"width" : "33.3%", "display" : "flex"}
-                        ),
-                        html.Div(
-                        [
-                            html.Label('Select End Gene',  style={"text-align" : "center", "color": "#dcdcdc", "font-weight": "bold"}),
-                            dcc.Dropdown(
-                                id='end-gene-input',
-                                clearable=True,
-                                placeholder="Select Gene",
-                                options=[
-                                    {'label': 'None', 'value': 'None'},
-                                    *[{'label': key, 'value': key}
-                                    for key in Gene_List]
-                                ],
-                                style = {"width" : "100%"}
-                            )
-                        ],
-                            style= {"width" : "33.3%", "display" : "flex"}
-                        ),
-                    ],
-                    style={"display": "flex", "width" : "100%"}
-                )],
-
-                style= {"width":"100%", "padding":"5px","paddingtop" : "7px"}
-            ),
-        ],  
-            className="navbar"
-        ),
 
         html.Div([
             html.Div([
@@ -1068,7 +962,113 @@ layout = html.Div(
             )
             
         ],
-            style = {"padding-left":"15px","padding-right":"15px","padding-top":"150px"}
+            style = {"padding-left":"15px","padding-right":"15px","padding-top":"15px"}
+        ),
+
+        html.Div([
+            html.Div([
+                html.Div([
+                    html.Div([
+
+                        html.Label('Select Pathway', style={"text-align" : "center", "color": "#dcdcdc", "font-weight": "bold","margin-right":"3px","margin-left":"3px"}),
+                        dcc.Dropdown(
+                            id='show-pathway-layout',
+                            clearable=True,
+                            placeholder="Select Specific Pathway",
+                            options=[
+                                {'label': 'None', 'value': 'None'},
+                                *[{'label': key, 'value': Main_Pathways[key]}
+                                for key in Main_Pathways.keys()]
+                            ],
+                            style= {"width" : "100%"}
+                            
+                        ),
+                    ],
+                        style={"display": "flex", "width": "33.3%"}
+                    ),
+
+                    html.Div([
+                        html.Label('Select Lipid Molecules', style={"text-align" : "center", "color": "#dcdcdc", "font-weight": "bold"}), ##212529
+                        dcc.Dropdown(
+                            id='show-Molecule-pathway-layout',
+                            clearable=True,
+                            placeholder="Select Lipid Molecule",
+                            options=[
+                                {'label': 'None', 'value': 'None'},
+                                *[{'label': key, 'value': Main_Molecules[key]}
+                                for key in Main_Molecules.keys()]
+                            ],
+                            style = {"width" : "100%"}
+                        ),
+                    ],
+                        style={"display": "flex", "width": "33.3%"}
+                    ),
+
+                    html.Div([
+                        html.Label('Select Gene', style={"text-align" : "center", "color": "#dcdcdc", "font-weight": "bold","margin-right":"3px","margin-left":"3px"}),
+                        dcc.Dropdown(
+                            id='show-Gene-pathway-layout',
+                            clearable=True,
+                            placeholder="Select Gene",
+                            options=[
+                                {'label': 'None', 'value': 'None'},
+                                *[{'label': key, 'value': key}
+                                for key in Gene_List]
+                            ],
+                            style = {"width" : "100%"}
+                        ),
+                    ],
+                        style={"display": "flex","width": "33.3%"}
+                    )
+
+                ],
+                    style={"display" : "flex", "margin-bottom" : "10px",'width':'100%'}
+                ),
+
+                html.Div([
+
+                    html.Div([
+                        html.Label('Select Start Gene',  style={"text-align" : "center", "color": "#dcdcdc", "font-weight": "bold"}),
+                        dcc.Dropdown(
+                            id='start-gene-input',
+                            clearable=True,
+                            placeholder="Select Gene",
+                            options=[
+                                {'label': 'None', 'value': 'None'},
+                                *[{'label': key, 'value': key}
+                                for key in Gene_List]
+                            ],
+                            style = {"width" : "100%", }
+                        )
+                    ],
+                        style= {"width" : "33.3%", "display" : "flex"}
+                    ),
+                    html.Div([
+                        html.Label('Select End Gene',  style={"text-align" : "center", "color": "#dcdcdc", "font-weight": "bold"}),
+                        dcc.Dropdown(
+                            id='end-gene-input',
+                            clearable=True,
+                            placeholder="Select Gene",
+                            options=[
+                                {'label': 'None', 'value': 'None'},
+                                *[{'label': key, 'value': key}
+                                for key in Gene_List]
+                            ],
+                            style = {"width" : "100%"}
+                        )
+                    ],
+                        style= {"width" : "33.3%", "display" : "flex"}
+                    )
+                    
+                ],
+                    style={"display" : "flex", "margin-bottom" : "10px",'width':'100%'}
+                )
+            ],
+                className='navbar'
+            )
+
+        ],
+            style={"padding-left":"15px","padding-right":"15px","padding-top":"15px"}
         ),
 
         html.Div(

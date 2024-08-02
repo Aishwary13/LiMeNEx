@@ -9,7 +9,7 @@ font_awesome3 = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/s
 
 dash_app = dash.Dash(__name__,external_stylesheets=[dbc.themes.BOOTSTRAP,font_awesome1,font_awesome3], title="LiMeNex" ,use_pages=True,suppress_callback_exceptions=True)
 
-from pages import home,visualisation
+from pages import home,visualisation, contact
 
 link_style = {
     'padding': '0.75em 1em',
@@ -37,17 +37,26 @@ dash_app.layout = html.Div([
             [
                 dbc.NavLink([html.Div([
                     html.I(className="fa-solid fa-house"),
-                    html.Span("Home", style={'margin-top': '3px', 'margin-left' :'6px'})], className='icon_title')],
+                    html.Span("Home", style={'margin-top': '0px', 'margin-left' :'6px'})], className='icon_title')],
                     href="/",
                     active="exact",
-                    className="pe-3"
+                    className="pe-3",
                 ),
                 dbc.NavLink([html.Div([
                     html.I(className="fa-solid fa-gauge"),
-                    html.Span("Dashboard", style={'margin-top': '3px', 'margin-left' :'6px'})], className='icon_title')],
+                    html.Span("Dashboard", style={'margin-top': '0px', 'margin-left' :'6px'})], className='icon_title')],
                     href="/dashboard",
                     active="exact",
-                    className="pe-3"
+                    className="pe-3",
+                    style={'margin-top' : '8px'}
+                ),
+                dbc.NavLink([html.Div([
+                    html.I(className="fa-solid fa-address-card"),
+                    html.Span("Contact Us", style={'margin-top': '0px', 'margin-left' :'6px'})], className='icon_title')],
+                    href="/contact",
+                    active="exact",
+                    className="pe-3",
+                    style={'margin-top' : '8px'}
                 )
             ],
             vertical=True,
@@ -72,6 +81,8 @@ def display_page(pathname):
         return home.layout
     elif pathname == '/dashboard':
         return visualisation.layout
+    elif pathname == '/contact':
+        return contact.layout
 
 
 if __name__ == '__main__':
