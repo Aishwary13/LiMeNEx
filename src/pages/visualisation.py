@@ -21,7 +21,7 @@ from flask import session
 from pages.uniportApi import get_uniprot_entry
 from pages.css import sigDown, sigUp, hideGrid, highlightLipid, highlightGene, default_stylesheet, default_stylesheet2
 
-dash.register_page(__name__)
+# dash.register_page(__name__)
 
 def create_session_folder():
     session_id = str(uuid.uuid4())
@@ -1022,19 +1022,11 @@ layout = html.Div(
                     ],
                     style={"display": "flex", "width" : "100%"}
                 )],
-                style= {"width":"87%", "padding":"5px","paddingtop" : "7px"}
+
+                style= {"width":"100%", "padding":"5px","paddingtop" : "7px"}
             ),
-
-            html.Div([
-                html.Img(src='..\\assets\\Dark_logo3_2.png', style={'height': '100px'})
-            ], style={"display": "flex", "justify-content": "center","width":"13%"})
-
         ],  
-            className="navbar",
-            style={"background-color" : "#292929","display":"flex", "box-shadow": "0 3px 3px 0 rgba(0, 0, 0, 0.3)", "z-index": "1000"}
-                # 3a78b5
-                #ebf7fa
-                #3a404a
+            className="navbar"
         ),
 
         html.Div([
