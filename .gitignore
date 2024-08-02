@@ -1,0 +1,11 @@
+# Ignore log files
+*.log
+
+# Ignore environment variables
+.env
+
+#folder path 
+/CountMatrix_data
+/rScript/sessions
+/src/assets/plots
+

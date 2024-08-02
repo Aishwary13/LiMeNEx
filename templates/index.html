@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Flask-Dash App</title>
+
+    {% for script in dash_scripts.scripts %}
+        {{ script }}
+    {% endfor %}
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #input-container {
+            text-align: center;
+            margin-bottom: 20px; /* Adjust as needed */
+        }
+    </style>
+</head>
+<body>
+    <!-- <div id = "input-container">
+        <label for="start-gene-input">Enter Gene Name:</label>
+        <input type="text" id="start-gene-input" placeholder="Type start gene">
+    </div> -->
+    <!-- <div id = "input-container">
+        <label for="gene-input">Enter Gene Name:</label>
+        <input type="text" id="gene-input" placeholder="Type gene name here">
+    </div> -->
+
+    <div>
+        <!-- This is where the Dash app will be rendered -->
+        <div id="dash-container">
+            {% app_entry %}
+        </div>
+        <script>
+            // Define DashApp object
+            var DashApp = new Dash({
+                external_scripts: [
+                    // Add any external scripts here
+                ]
+            });
+
+            // Set the layout
+            DashApp.layout({dash_layout , tojson , safe });
+
+            // Set the callback
+            DashApp.callback_map({ dash_callback , tojson , safe });
+
+            // Start the Dash app
+            DashApp.start('#dash-container');
+        </script>
+    </div>
+</body>
+</html>

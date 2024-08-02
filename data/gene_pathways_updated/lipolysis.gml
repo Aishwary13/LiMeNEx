@@ -1,0 +1,47 @@
+graph [
+  directed 1
+  node [
+    id 0
+    label "TAG(ii)"
+  ]
+  node [
+    id 1
+    label "PNPLA2"
+  ]
+  node [
+    id 2
+    label "LIPE"
+  ]
+  node [
+    id 3
+    label "MGLL"
+  ]
+  node [
+    id 4
+    label "Glycerol(i)"
+  ]
+  node [
+    id 5
+    label "Fatty Acids(i)"
+  ]
+  edge [
+    source 0
+    target 1
+  ]
+  edge [
+    source 1
+    target 2
+  ]
+  edge [
+    source 2
+    target 3
+  ]
+  edge [
+    source 3
+    target 4
+  ]
+  edge [
+    source 3
+    target 5
+  ]
+]

@@ -1,0 +1,15 @@
+.highlighted-checklist .custom-checkbox-label {
+    color: #1e90ff; /* Example color for labels */
+    font-weight: bold;
+}
+
+.upload{
+    width: 100%;
+}
+
+.navbar{
+    position: fixed;
+    top: 5;
+    width: 100%;
+    z-index: 1000;
+}

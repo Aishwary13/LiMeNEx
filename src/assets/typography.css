@@ -1,0 +1,22 @@
+body {
+    margin: 0;
+    padding: 0;
+    /* Add any other styles you want to apply to the body element */
+}
+
+.select-control{
+    width: 100%;
+}
+
+.highlighted-checklist .custom-checkbox-label {
+    color: #1e90ff; /* Example color for labels */
+    font-weight: bold;
+}
+
+.highlighted-checklist .custom-checkbox-label.highlight-upregulated {
+    color: green;
+}
+
+.highlighted-checklist .custom-checkbox-label.highlight-downregulated {
+    color: red;
+}

@@ -1,0 +1,12 @@
+{
+    "Beta Oxidation FattyAcids": "beta_oxidation_fattyacids",
+    "Cholesterol Degradation": "cholesterol_degradation_graph",
+    "Cholesterol Synthesis": "cholesterol_synthesis_graph",
+    "Fatty Acid Synthesis": "Fatty_acid_synthesis",
+    "Lipogenesis": "Lipogenesis",
+    "Lipolysis": "lipolysis",
+    "Phospholipid Degradation": "Phospholipid_degradation_pathway",
+    "Phospholipid Synthesis": "phospholipid_synthesis_graph",
+    "Sphingolipid Degradation": "sphingolipid_degradation",
+    "Sphingolipid Synthesis": "sphingolipid_synthesis"
+}

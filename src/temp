@@ -1,0 +1,25 @@
+{
+    "uniprotID": "Q53EU6",
+    "geneName": "GPAT3",
+    "proteinName": "Glycerol-3-phosphate acyltransferase 3",
+    "organismName": "Homo sapiens",
+    "function": "Converts glycerol-3-phosphate to 1-acyl-sn-glycerol-3-phosphate (lysophosphatidic acid or LPA) by incorporating an acyl moiety at the sn-1 position of the glycerol backbone (PubMed:17170135). Also converts LPA into 1,2-diacyl-sn-glycerol-3-phosphate (phosphatidic acid or PA) by incorporating an acyl moiety at the sn-2 position of the glycerol backbone (PubMed:19318427). Protects cells against lipotoxicity (PubMed:30846318)",
+    "go": {
+        "Biological Process": [
+            "CDP-diacylglycerol biosynthetic process",
+            "glycerol-3-phosphate metabolic process",
+            "phosphatidic acid biosynthetic process",
+            "regulation of TOR signaling",
+            "triglyceride biosynthetic process"
+        ],
+        "Molecular Function": [
+            "1-acylglycerol-3-phosphate O-acyltransferase activity",
+            "glycerol-3-phosphate O-acyltransferase activity",
+            "sn-1-glycerol-3-phosphate C16:0-DCA-CoA acyl transferase activity"
+        ],
+        "Cellular Component": [
+            "endoplasmic reticulum",
+            "endoplasmic reticulum membrane"
+        ]
+    }
+}
