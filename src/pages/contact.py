@@ -21,6 +21,7 @@ layout = html.Div([
                     ])
                 ])
             ]),
+            
             html.Div(className='contact-info-form', children=[
                 html.Span(className='circle one'),
                 html.Span(className='circle two'),

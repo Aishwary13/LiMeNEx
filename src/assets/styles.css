@@ -187,7 +187,7 @@ form {
 .title {
     color: #fff;
     font-weight: 500;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     line-height: 1;
     margin-bottom: 0.7rem
 }
@@ -206,7 +206,7 @@ form {
     padding: 0.6rem 1.2rem;
     color: #ffffff;
     font-weight: 500;
-    font-size: 0.95rem;
+    font-size: 0.70rem;
     letter-spacing: 0.5px;
     border-radius: 4px;
     transition: 0.3s
@@ -231,7 +231,7 @@ textarea.input {
     transform: translateY(-50%);
     padding: 0 0.4rem;
     color: #fafafa;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     font-weight: 400;
     pointer-events: none;
     z-index: 1000;
@@ -247,7 +247,7 @@ textarea.input {
     padding: 0.6rem 1.3rem;
     background-color: #fff;
     border: 2px solid #fafafa;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #1abc9c;
     line-height: 1;
     border-radius: 4px;
@@ -267,7 +267,7 @@ textarea.input {
     top: 0;
     left: 25px;
     transform: translateY(-50%);
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     padding: 0 0.4rem;
     color: transparent;
     pointer-events: none;
@@ -299,7 +299,7 @@ textarea.input {
     top: 0;
     transform: translateY(-50%);
     left: 25px;
-    font-size: 0.8rem
+    font-size: 0.7rem
 }
 
 .social-input-containers.focus span:before,
@@ -327,7 +327,7 @@ textarea.input {
     color: #555;
     margin: 0.7rem 0;
     align-items: center;
-    font-size: 0.95rem
+    font-size: 0.70rem
 }
 
 .icon {
@@ -377,7 +377,7 @@ textarea.input {
 }
 
 .social-information i {
-    font-size: 22px;
+    font-size: 15px;
     margin-bottom: 23px;
     margin-right: 8px;
     color: #cf0606
@@ -474,11 +474,11 @@ textarea.input {
     .text,
     .social-information,
     .social-media p {
-        font-size: 0.8rem
+        font-size: 0.7rem
     }
 
     .title {
-        font-size: 1.15rem
+        font-size: 1rem
     }
 
     .social-icons a {

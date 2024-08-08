@@ -962,7 +962,7 @@ layout = html.Div(
             )
             
         ],
-            style = {"padding-left":"15px","padding-right":"15px","padding-top":"15px"}
+            style = {"padding-left":"15px","padding-right":"15px","padding-top":"15px","font-size" : "0.8rem"}
         ),
 
         html.Div([
@@ -1068,7 +1068,7 @@ layout = html.Div(
             )
 
         ],
-            style={"padding-left":"15px","padding-right":"15px","padding-top":"15px"}
+            style={"padding-left":"15px","padding-right":"15px","padding-top":"15px","font-size":"0.8rem"}
         ),
 
         html.Div(
@@ -1125,7 +1125,7 @@ layout = html.Div(
                 style = {"height": "90vh", "width": "53%"}
             )
         ],
-            style={"display": "flex", "justify-content" : "space-between","padding":"15px"}
+            style={"display": "flex", "justify-content" : "space-between","padding":"15px","font-size":"0.8rem"}
         )
     ],
 
