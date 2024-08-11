@@ -141,6 +141,10 @@
     grid-template-columns: repeat(2, 1fr)
 }
 
+.formDiv {
+    padding: 2rem 2rem;
+}
+
 .contact-info-form {
     background-color: #292929;
     position: relative
