@@ -32,10 +32,10 @@ layout = html.Div([
     html.Div([
         html.H2("Key Features & Functionalities", style={'color': '#FFFFFF', 'fontWeight': 'bold', 'textAlign': 'center'}),
         html.Ul([
-            html.Li("Differential Expression Analysis: Identify upregulated and downregulated genes with precision.", style={'color': '#CCCCCC'}),
-            html.Li("Custom Data Input: Upload your data and see real-time results on the network.", style={'color': '#CCCCCC'}),
-            html.Li("Interactive Visualization: Interact with the network and explore gene relationships visually.", style={'color': '#CCCCCC'}),
-        ], style={'listStyleType': 'none', 'paddingLeft': '0', 'textAlign': 'left', 'maxWidth': '800px', 'margin': '0 auto'})
+            html.Li("1. Differential Expression Analysis: Identify upregulated and downregulated genes with precision.", style={'color': '#CCCCCC'}),
+            html.Li("2. Custom Data Input: Upload your data and see real-time results on the network.", style={'color': '#CCCCCC'}),
+            html.Li("3. Interactive Visualization: Interact with the network and explore gene relationships visually.", style={'color': '#CCCCCC'}),
+        ], style={'listStyleType': 'none', 'paddingLeft': '0', 'textAlign': 'left', 'maxWidth': '800px', 'margin': '0 auto', 'textAlign': 'center'})
     ], style={'backgroundColor': '#1A1A1A', 'padding': '50px 20px'}),
 
     # Step-by-Step Guide Section

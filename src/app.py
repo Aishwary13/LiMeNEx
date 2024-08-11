@@ -47,9 +47,17 @@ dash_app.layout = html.Div([
                     className="pe-3",
                 ),
                 dbc.NavLink([html.Div([
-                    html.I(className="fa-solid fa-gauge"),
-                    html.Span("Dashboard", style={'marginTop': '0px', 'marginLeft' :'6px'})], className='icon_title')],
-                    href="/dashboard",
+                    html.I(className="fa-solid fa-circle-nodes"),
+                    html.Span("Network", style={'marginTop': '0px', 'marginLeft' :'6px'})], className='icon_title')],
+                    href="/Network",
+                    active="exact",
+                    className="pe-3",
+                    style={'marginTop' : '8px'}
+                ),
+                dbc.NavLink([html.Div([
+                    html.I(className="fa-solid fa-magnifying-glass-chart"),
+                    html.Span("D.E. Analysis", style={'marginTop': '0px', 'marginLeft' :'6px'})], className='icon_title')],
+                    href="/DiffAnalysis",
                     active="exact",
                     className="pe-3",
                     style={'marginTop' : '8px'}
@@ -57,7 +65,7 @@ dash_app.layout = html.Div([
                 dbc.NavLink([html.Div([
                     html.I(className="fa-solid fa-address-card"),
                     html.Span("Contact Us", style={'marginTop': '0px', 'marginLeft' :'6px'})], className='icon_title')],
-                    href="/contact",
+                    href="/Contact",
                     active="exact",
                     className="pe-3",
                     style={'marginTop' : '8px'}
@@ -83,9 +91,9 @@ dash_app.layout = html.Div([
 def display_page(pathname):
     if pathname == '/':
         return home.layout
-    elif pathname == '/dashboard':
+    elif pathname == '/Network':
         return visualisation.layout
-    elif pathname == '/contact':
+    elif pathname == '/Contact':
         return contact.layout
 
 
