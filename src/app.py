@@ -13,7 +13,7 @@ dash_app = dash.Dash(__name__,external_stylesheets=[dbc.themes.BOOTSTRAP,font_aw
                     title="LiMeNex" ,use_pages=True,suppress_callback_exceptions=True,
                     external_scripts=[external_js_lib])
 
-from pages import home,visualisation, contact
+from pages import home,visualisation, contact,Analysis
 
 link_style = {
     'padding': '0.75em 1em',
@@ -95,6 +95,8 @@ def display_page(pathname):
         return visualisation.layout
     elif pathname == '/Contact':
         return contact.layout
+    elif pathname == '/DiffAnalysis':
+        return Analysis.layout
 
 
 if __name__ == '__main__':

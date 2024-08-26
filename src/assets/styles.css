@@ -503,3 +503,67 @@ textarea.input {
         padding: 0.45rem 1.2rem
     }
 }
+
+/* ###############################------Analysis----################################################################ */
+
+
+.form-container {
+    width: 100%;
+    margin: auto;
+    padding: 20px;
+    background-color: #1A1A1A;
+}
+
+.progress-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+}
+
+.step {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 50%;
+    background-color: #444;
+    text-align: center;
+    font-size: 18px;
+    color: white;
+}
+
+.completed {
+    background-color: #00CC96;
+}
+
+.active {
+    background-color: #0074D9;
+}
+
+.arrow {
+    flex-grow: 1;
+    border-color: white;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.arrowCompleted{
+    border-color: #00CC96;
+}
+
+.btn {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: white;
+    background-color: #444;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #00CC96;
+}

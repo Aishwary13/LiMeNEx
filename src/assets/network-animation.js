@@ -10,8 +10,18 @@ window.onload = function() {
             renderer.setSize(container.clientWidth, container.clientHeight);
             container.appendChild(renderer.domElement);
 
+            // Add a directional light
+            const light = new THREE.DirectionalLight(0xffffff, 1);
+            light.position.set(5, 5, 5).normalize();
+            scene.add(light);
+
+            // Create a texture loader
+            const textureLoader = new THREE.TextureLoader();
+            const texture = textureLoader.load('path/to/your/texture.jpg'); // Replace with your texture path
+
+            // Use a texture instead of a basic color
+            const material = new THREE.MeshPhongMaterial({ map: texture });
             const geometry = new THREE.SphereGeometry(0.5, 32, 32);
-            const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
             const sphere = new THREE.Mesh(geometry, material);
             scene.add(sphere);
 
