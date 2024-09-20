@@ -9,4 +9,7 @@
 /rScript/sessions
 /src/assets/plots
 /src/Finalgraph.gml
-
+/FetchData/data
+/GRNdb
+/SBML_Network/networkFile
+/experiments

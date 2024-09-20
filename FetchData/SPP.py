@@ -46,7 +46,7 @@ for i in range(0,len(targetGenedf)):
         new_row = {'Physiological System':system, 'Tissue':newtissue, 'Types':newtissuetype}
         mapping = pd.concat([mapping, pd.DataFrame([new_row])],ignore_index = True)
 
-        mapping.to_csv("D:/Raylab/LiMeNEx/FetchData/Physiologicalsystem.csv")
+        mapping.to_csv("D:/Raylab/LiMeNEx/FetchData/Physiologicalsystem.csv", index = False)
     
     mask = mapping['Types'] == tissue
     temp = mapping[mask]
