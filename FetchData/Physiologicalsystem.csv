@@ -1,148 +1,148 @@
-Physiological System,Tissue,Types
-Metabolic,Adipose tissue,"WAT, adipocytes, hMADs-derived"
-Metabolic,Adipose tissue,"BrAT, adipocytes, hMADs-derived"
-Metabolic,Adipose tissue,"WAT, adipocytes, SGBS cells"
-Metabolic,Adipose tissue,"WAT, adipocytes, hASC-derived"
-Metabolic,Kidney,"epithelium, HEK293-T-Rex cells"
-Metabolic,Kidney,"epithelium, HEK293 cells"
-Metabolic,Kidney,"epithelial cells, RPTEC"
-Metabolic,Liver,"epithelium, HepG2 cells"
-Metabolic,Pancreas,"duct, epithelium, CFPAC-1 cells"
-Metabolic,skeletal muscle,HSMMs
-Metabolic,Thyroid gland,"parafollicular, MTC, TT cells"
-Blood,Erythroid lineage,"erythroblasts, bone marrow"
-Blood,Erythroid lineage,"erythroblasts, bone marrow, HEL 92.1.7 cells"
-Blood,Erythroid lineage,"erythroid cells, bone marrow"
-Blood,HSPCs,"bone marrow, CD34+"
-Blood,Megakaryocyte lineage,"megakaryoblasts, MEG-01 cells"
-Blood,progenitors,
-Blood,other,
-Cardiovascular,Blood,
-Cardiovascular,Bone Marrow,
-Cardiovascular,Heart,myocytes
-Cardiovascular,Heart,"fibroblasts, HCFs"
-Cardiovascular,Vasculature,"smooth muscle, whole"
-Cardiovascular,Vasculature,"endothelium, HBMECs, 1° cells"
-Cardiovascular,Vasculature,"other, HPAFs, 1° cells"
-Cardiovascular,Vasculature,"other, AoAFCs, 1° cells"
-Cardiovascular,Vasculature,"endothelium, HUVECs, 1° cells"
-Cardiovascular,other,
-Female reproductive,Mammary Gland,"epithelium, T47D cells"
-Female reproductive,Mammary Gland,"epithelium, MDA-MB-453 cells"
-Female reproductive,Mammary Gland,"epithelium, MDA-MB-231 LM2 cells"
-Female reproductive,Mammary Gland,"epithelium, MCF-10A cells"
-Female reproductive,Mammary Gland,"epithelium, MDA-MB-231 cells"
-Female reproductive,Mammary Gland,"epithelium, MCF-7 cells"
-Female reproductive,Mammary Gland,"other, fibroblasts, HMFs"
-Female reproductive,Ovary,
-Female reproductive,Oviduct,
-Female reproductive,Placenta,HVMFs
-Female reproductive,Uterus ,"endometrium, epithelium, cervical, HeLa cells"
-Female reproductive,Uterus ,"cervix, epithelial, HeLa cells"
-Female reproductive,Uterus ,"endometrium, epithelium, ECC-1 cells"
-Female reproductive,Vagina,
-Female reproductive,Other,
-Gastrointestinal,Bile Duct,
-Gastrointestinal,Colon,"epithelium, LS180 cells"
-Gastrointestinal,Colon,"epithelium, HCT116 cells"
-Gastrointestinal,Colon,"epithelium, LoVo cells"
-Gastrointestinal,Duodenum,
-Gastrointestinal,Esophagus,
-Gastrointestinal,lleum,
-Gastrointestinal,Jejunum,
-Gastrointestinal,Rectum ,
-Gastrointestinal,Stomach,"epithelium, AGS cells"
-Gastrointestinal,Stomach,"epithelium, KATO III cells"
-Gastrointestinal,Other,
-Immune,Leukocytes,B lymphocytes
-Immune,Leukocytes,T lymphoblasts
-Immune,Leukocytes,macrophages
-Immune,Leukocytes,promyelocytes
-Immune,Leukocytes,lymphocytes
-Immune,Leukocytes,T lymphocytes
-Immune,Leukocytes,lymphoblasts
-Immune,Leukocytes,myeloblasts
-Immune,Lymph node,
-Immune,Spleen,
-Immune,Thymus,
-Immune,Other,
-Male Reproductive,Prostate,"epithelium, DU145 cells"
-Male Reproductive,Prostate,"epithelium, VCaP cells"
-Male Reproductive,Prostate,"epithelium, LNCaP cells"
-Male Reproductive,Prostate,"epithelium, LNCaP-abl cells"
-Male Reproductive,Testis,
-Male Reproductive,Epididymis,
-Male Reproductive,Other,
-Neurosensory,PNS,
-Neurosensory,CNS,"other, glioblastoma cells, U-87 MG cells"
-Neurosensory,CNS,"cerebrum, PFSK-1 cells"
-Neurosensory,CNS,"cerebellum, astrocytes"
-Neurosensory,CNS,"other, neuroblastoma, BE(2)-C cells"
-Neurosensory,CNS,"choroid plexus, HCPEpiCs"
-Neurosensory,CNS,"other, spinal cord, astrocytes"
-Neurosensory,CNS,"other, astrocytes, NHAs"
-Neurosensory,CNS,"other, neuroblastoma cells, SK-N-SH cells"
-Neurosensory,Sensory,"eye, globe, retinoblastoma, WERI-Rb-1 cells"
-Neurosensory,Sensory,"eye, retina, HRPEpiC cells"
-Respiratory,Lung,"other, HCC95 cells"
-Respiratory,Lung,"epithelium, SAECs"
-Respiratory,Lung,"fibroblasts, fetal, Ag04450 cells"
-Respiratory,Lung,"fibroblasts, NHLFs"
-Respiratory,Lung,"other, HPFs"
-Respiratory,Lung,"epithelium, A549 cells"
-Respiratory,Lung,"fibroblasts, IMR-90 cells"
-Skeletal,Bone ,"osteoblasts, SaOS2 cells"
-Skeletal,Bone ,"fibroblasts, SJSA-1 cells"
-Skeletal,Bone ,"osteoblasts, U2OS cells"
-Skeletal,Bone ,"osteoblasts, unspecified"
-Skeletal,Cartilage,
-Other,Adrenal gland,
-Other,Bladder,
-Other,Embryonic tissue,endodermal cells
-Other,Fibroblasts,
-Other,Lung,
-Other,Miscellaneous,"other, fibroblasts, gingival, Ag09319 cells"
-Other,Skin,"epidermis, keratinocytes, 1° cells"
-Other,Skin,"fibroblasts, HFFCs"
-Other,Skin,"fibroblasts, Ag04449 cells"
-Other,Skin,"fibroblasts, Ag10803 cells"
-Other,Skin,"fibroblasts, BJ cells"
-Other,Skin,"fibroblasts, Ag09309 cells"
-Other,Skin,"fibroblasts, epidermal"
-Other,Skin,"epidermis, NHEKs"
-Other,Skin,"epidermis, NHDFs"
-Other,Stem cells,"multipotent, MSCs"
-Other,Stem cells,"pluripotent, ESCs, Cyt49 cells"
-Other,Stem cells,"pluripotent, NT2-D1 cells"
-Other,Stem cells,"pluripotent, ESCs, HUES64 cells"
-Other,Stem cells,"pluripotent, ESCs, H1 cells"
-Female reproductive,Mammary Gland,"epithelium, ZR-75-1 cells"
-Immune,Leukocytes,"lymphoid lineage, unspecified, MS1 cells"
-Gastrointestinal,Colon,"epithelium, Caco-2 cells"
-Female reproductive,Mammary gland,"epithelium, 1° HMEC cells"
-Metabolic,Kidney,"epithelium, HREs"
-Male reproductive,Prostate,"epithelium, LNCaP-1F5 cells"
-Metabolic,Pancreas,"duct, epithelium, PANC-1 cells"
-Metabolic,Adipose tissue,"WAT, abdominal, stromal cells"
-Immune,Leukocytes,monocytes
-Metabolic,Adipose tissue,"WAT, adiocytes, hASC-derived"
-Male reproductive,Prostate,"epithelium, LNCaP-C4-2B cells"
-Gastrointestinal,Stomach,"epithelium, YCC3 cells"
-Metabolic,Pancreas,"other, whole pancreas"
-Gastrointestinal,Esophagus,"epithelium, HEEpiCs"
-Gastrointestinal,Esophagus,"epithelium, KYSE-70 cells"
-Neurosensory,CNS,"other, astrocytoma, SF268 cells"
-Other,Stem cells,"pluripotent, iPSCs"
-Neurosensory,CNS,"other, neuroblastoma cells, SH-SY5Y cells"
-Other,Stem cells,"pluripotent, ESCs, ESC-derived mesodermal cells"
-Metabolic,Kidney,"cortex, whole"
-Respiratory,Lung,"epithelium, bronchus, BEAS-2B cells"
-Respiratory,Lung,"fibroblasts, WI-38 cells"
-Other,Skin,"epidermis, MDAH087 cells"
-Blood,Megakaryocyte lineage,"megakaryoblasts, AMKL, CHRF-288-11 cells"
-Neurosensory,CNS,"other, neuroblastoma cells, SK-N-MC cells"
-Metabolic,Pancreas, ESC-derived pancreatic endoderm
-Metabolic,Pancreas,ESC-derived pancreatic endoderm
-Other,Skin,"epidermis, melanocytes"
-Metabolic,Kidney,"epithelium, 786-O cells"
-Other,Stem cells,"pluripotent, ESCs, H9 cells"
+,Physiological System,Tissue,Types
+0,Metabolic,adipose tissue,"WAT, adipocytes, hMADs-derived"
+1,Metabolic,adipose tissue,"BrAT, adipocytes, hMADs-derived"
+2,Metabolic,adipose tissue,"WAT, adipocytes, SGBS cells"
+3,Metabolic,adipose tissue,"WAT, adipocytes, hASC-derived"
+4,Metabolic,kidney,"epithelium, HEK293-T-Rex cells"
+5,Metabolic,kidney,"epithelium, HEK293 cells"
+6,Metabolic,kidney,"epithelial cells, RPTEC"
+7,Metabolic,liver,"epithelium, HepG2 cells"
+8,Metabolic,pancreas,"duct, epithelium, CFPAC-1 cells"
+9,Metabolic,skeletal muscle,HSMMs
+10,Metabolic,thyroid gland,"parafollicular, MTC, TT cells"
+11,Blood,erythroid lineage,"erythroblasts, bone marrow"
+12,Blood,erythroid lineage,"erythroblasts, bone marrow, HEL 92.1.7 cells"
+13,Blood,erythroid lineage,"erythroid cells, bone marrow"
+14,Blood,hspcs,"bone marrow, CD34+"
+15,Blood,megakaryocyte lineage,"megakaryoblasts, MEG-01 cells"
+16,Blood,progenitors,
+17,Blood,other,
+18,Cardiovascular,blood,
+19,Cardiovascular,bone marrow,
+20,Cardiovascular,heart,myocytes
+21,Cardiovascular,heart,"fibroblasts, HCFs"
+22,Cardiovascular,vasculature,"smooth muscle, whole"
+23,Cardiovascular,vasculature,"endothelium, HBMECs, 1° cells"
+24,Cardiovascular,vasculature,"other, HPAFs, 1° cells"
+25,Cardiovascular,vasculature,"other, AoAFCs, 1° cells"
+26,Cardiovascular,vasculature,"endothelium, HUVECs, 1° cells"
+27,Cardiovascular,other,
+28,Female reproductive,mammary gland,"epithelium, T47D cells"
+29,Female reproductive,mammary gland,"epithelium, MDA-MB-453 cells"
+30,Female reproductive,mammary gland,"epithelium, MDA-MB-231 LM2 cells"
+31,Female reproductive,mammary gland,"epithelium, MCF-10A cells"
+32,Female reproductive,mammary gland,"epithelium, MDA-MB-231 cells"
+33,Female reproductive,mammary gland,"epithelium, MCF-7 cells"
+34,Female reproductive,mammary gland,"other, fibroblasts, HMFs"
+35,Female reproductive,ovary,
+36,Female reproductive,oviduct,
+37,Female reproductive,placenta,HVMFs
+38,Female reproductive,uterus,"endometrium, epithelium, cervical, HeLa cells"
+39,Female reproductive,uterus,"cervix, epithelial, HeLa cells"
+40,Female reproductive,uterus,"endometrium, epithelium, ECC-1 cells"
+41,Female reproductive,vagina,
+42,Female reproductive,other,
+43,Gastrointestinal,bile duct,
+44,Gastrointestinal,colon,"epithelium, LS180 cells"
+45,Gastrointestinal,colon,"epithelium, HCT116 cells"
+46,Gastrointestinal,colon,"epithelium, LoVo cells"
+47,Gastrointestinal,duodenum,
+48,Gastrointestinal,esophagus,
+49,Gastrointestinal,lleum,
+50,Gastrointestinal,jejunum,
+51,Gastrointestinal,rectum,
+52,Gastrointestinal,stomach,"epithelium, AGS cells"
+53,Gastrointestinal,stomach,"epithelium, KATO III cells"
+54,Gastrointestinal,other,
+55,Immune,leukocytes,B lymphocytes
+56,Immune,leukocytes,T lymphoblasts
+57,Immune,leukocytes,macrophages
+58,Immune,leukocytes,promyelocytes
+59,Immune,leukocytes,lymphocytes
+60,Immune,leukocytes,T lymphocytes
+61,Immune,leukocytes,lymphoblasts
+62,Immune,leukocytes,myeloblasts
+63,Immune,lymph node,
+64,Immune,spleen,
+65,Immune,thymus,
+66,Immune,other,
+67,Male Reproductive,prostate,"epithelium, DU145 cells"
+68,Male Reproductive,prostate,"epithelium, VCaP cells"
+69,Male Reproductive,prostate,"epithelium, LNCaP cells"
+70,Male Reproductive,prostate,"epithelium, LNCaP-abl cells"
+71,Male Reproductive,testis,
+72,Male Reproductive,epididymis,
+73,Male Reproductive,other,
+74,Neurosensory,pns,
+75,Neurosensory,cns,"other, glioblastoma cells, U-87 MG cells"
+76,Neurosensory,cns,"cerebrum, PFSK-1 cells"
+77,Neurosensory,cns,"cerebellum, astrocytes"
+78,Neurosensory,cns,"other, neuroblastoma, BE(2)-C cells"
+79,Neurosensory,cns,"choroid plexus, HCPEpiCs"
+80,Neurosensory,cns,"other, spinal cord, astrocytes"
+81,Neurosensory,cns,"other, astrocytes, NHAs"
+82,Neurosensory,cns,"other, neuroblastoma cells, SK-N-SH cells"
+83,Neurosensory,sensory,"eye, globe, retinoblastoma, WERI-Rb-1 cells"
+84,Neurosensory,sensory,"eye, retina, HRPEpiC cells"
+85,Respiratory,lung,"other, HCC95 cells"
+86,Respiratory,lung,"epithelium, SAECs"
+87,Respiratory,lung,"fibroblasts, fetal, Ag04450 cells"
+88,Respiratory,lung,"fibroblasts, NHLFs"
+89,Respiratory,lung,"other, HPFs"
+90,Respiratory,lung,"epithelium, A549 cells"
+91,Respiratory,lung,"fibroblasts, IMR-90 cells"
+92,Skeletal,bone,"osteoblasts, SaOS2 cells"
+93,Skeletal,bone,"fibroblasts, SJSA-1 cells"
+94,Skeletal,bone,"osteoblasts, U2OS cells"
+95,Skeletal,bone,"osteoblasts, unspecified"
+96,Skeletal,cartilage,
+97,Other,adrenal gland,
+98,Other,bladder,
+99,Other,embryonic tissue,endodermal cells
+100,Other,fibroblasts,
+101,Other,lung,
+102,Other,miscellaneous,"other, fibroblasts, gingival, Ag09319 cells"
+103,Other,skin,"epidermis, keratinocytes, 1° cells"
+104,Other,skin,"fibroblasts, HFFCs"
+105,Other,skin,"fibroblasts, Ag04449 cells"
+106,Other,skin,"fibroblasts, Ag10803 cells"
+107,Other,skin,"fibroblasts, BJ cells"
+108,Other,skin,"fibroblasts, Ag09309 cells"
+109,Other,skin,"fibroblasts, epidermal"
+110,Other,skin,"epidermis, NHEKs"
+111,Other,skin,"epidermis, NHDFs"
+112,Other,stem cells,"multipotent, MSCs"
+113,Other,stem cells,"pluripotent, ESCs, Cyt49 cells"
+114,Other,stem cells,"pluripotent, NT2-D1 cells"
+115,Other,stem cells,"pluripotent, ESCs, HUES64 cells"
+116,Other,stem cells,"pluripotent, ESCs, H1 cells"
+117,Female reproductive,mammary gland,"epithelium, ZR-75-1 cells"
+118,Immune,leukocytes,"lymphoid lineage, unspecified, MS1 cells"
+119,Gastrointestinal,colon,"epithelium, Caco-2 cells"
+120,Female reproductive,mammary gland,"epithelium, 1° HMEC cells"
+121,Metabolic,kidney,"epithelium, HREs"
+122,Male reproductive,prostate,"epithelium, LNCaP-1F5 cells"
+123,Metabolic,pancreas,"duct, epithelium, PANC-1 cells"
+124,Metabolic,adipose tissue,"WAT, abdominal, stromal cells"
+125,Immune,leukocytes,monocytes
+126,Metabolic,adipose tissue,"WAT, adiocytes, hASC-derived"
+127,Male reproductive,prostate,"epithelium, LNCaP-C4-2B cells"
+128,Gastrointestinal,stomach,"epithelium, YCC3 cells"
+129,Metabolic,pancreas,"other, whole pancreas"
+130,Gastrointestinal,esophagus,"epithelium, HEEpiCs"
+131,Gastrointestinal,esophagus,"epithelium, KYSE-70 cells"
+132,Neurosensory,cns,"other, astrocytoma, SF268 cells"
+133,Other,stem cells,"pluripotent, iPSCs"
+134,Neurosensory,cns,"other, neuroblastoma cells, SH-SY5Y cells"
+135,Other,stem cells,"pluripotent, ESCs, ESC-derived mesodermal cells"
+136,Metabolic,kidney,"cortex, whole"
+137,Respiratory,lung,"epithelium, bronchus, BEAS-2B cells"
+138,Respiratory,lung,"fibroblasts, WI-38 cells"
+139,Other,skin,"epidermis, MDAH087 cells"
+140,Blood,megakaryocyte lineage,"megakaryoblasts, AMKL, CHRF-288-11 cells"
+141,Neurosensory,cns,"other, neuroblastoma cells, SK-N-MC cells"
+142,Metabolic,pancreas, ESC-derived pancreatic endoderm
+143,Metabolic,pancreas,ESC-derived pancreatic endoderm
+144,Other,skin,"epidermis, melanocytes"
+145,Metabolic,kidney,"epithelium, 786-O cells"
+146,Other,stem cells,"pluripotent, ESCs, H9 cells"

@@ -5,6 +5,7 @@ regulatingGene/transcriptionFactorGene
 lipidMetabolite
 nonLipidMetabolite
 nonLipidSubstrate
+lipidSubstrate
 
 --------------------------------------------------
 first_half
