@@ -1,4 +1,7 @@
 {
-    "Fatty Acid Synthesis" : "fattyAcidSynthesis",
-    "Beta Oxidation Fatty Acid" : "betaOxidationFattyAcid"
+    "PathwayOptions": {
+        "Fatty Acid Synthesis" : "fattyAcidSynthesis",
+        "Beta Oxidation Fatty Acid" : "betaOxidationFattyAcid"
+    },
+    "physiologicalOptions": ["Metabolic","Blood","Cardiovascular","Female reproductive","Gastrointestinal","Immune","Male Reproductive","Neurosensory","Respiratory","Skeletal","Other"]
 }
