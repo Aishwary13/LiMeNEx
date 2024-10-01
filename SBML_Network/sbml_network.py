@@ -1,6 +1,15 @@
 import xml.etree.ElementTree as ET
 import pandas as pd
 
+import dash
+from dash import dcc, html, Input, Output, State
+import dash_cytoscape as cyto
+import json
+import os
+from css import ex_stylesheet
+from itertools import chain
+from dash_extensions import EventListener
+
 
 ns = {'celldesigner': 'http://www.sbml.org/2001/ns/celldesigner', '': 'http://www.sbml.org/sbml/level2/version4',
         'html': 'http://www.w3.org/1999/xhtml'}
@@ -127,7 +136,8 @@ def readSbml(filePath,finalNodes,finalNodeSet,finalEdges,reactionNum):
                 'data' : {
                     'source' : reactant,
                     'target' :f"mid_{reactionId}",
-                    'classes' : 'first_half'
+                    'classes' : 'first_half',
+                    'label' : ""
                 },
                 'classes' : 'first_half'
             })
@@ -137,7 +147,8 @@ def readSbml(filePath,finalNodes,finalNodeSet,finalEdges,reactionNum):
                 'data' : {
                     'source' : f"mid_{reactionId}",
                     'target' : reactant,
-                    'classes' : 'second_half'
+                    'classes' : 'second_half',
+                    'label': ""
                 },
                 'classes' : 'second_half'
             })
@@ -147,7 +158,8 @@ def readSbml(filePath,finalNodes,finalNodeSet,finalEdges,reactionNum):
                 'data' : {
                     'source' : gene,
                     'target' : f"mid_{reactionId}",
-                    'classes' : modification
+                    'classes' : modification,
+                    'label' : ""
                 },
                 'classes' : modification
             })
@@ -195,7 +207,8 @@ def readMapping(df, finalNodes, finalEdges,finalNodeSet):
                 'data' : {
                     'source' : tf,
                     'target' : tg,
-                    'tissueClass' : f"TRANSCRIPTION {edgeTissues}"
+                    'tissueClass' : f"TRANSCRIPTION {edgeTissues}",
+                    'label' : ""
                 },
                 'classes' : f"TRANSCRIPTION"
             })
@@ -210,21 +223,17 @@ def readMapping(df, finalNodes, finalEdges,finalNodeSet):
                     'classes' : f"transcriptionFactorGene"
                 })
             else:
+                ##############################################################
                 for ele in finalNodes:
+
                     if ele.get("data").get("label") == tf:
                         ele.get("data")["tissueClass"] = f"{ele.get('classes')} {nodeTissues}"
                         break
+                #####################################################################
     
     return followers_node_di, followers_edges_di
 
 ########################################################################################################
-import dash
-from dash import dcc, html, Input, Output, State
-import dash_cytoscape as cyto
-import json
-import os
-from css import ex_stylesheet
-from itertools import chain
 
 
 app = dash.Dash(__name__)
@@ -279,7 +288,7 @@ def handlePathwaySelection(optionList, stylesheet):
         for tis in uniqueTissue:
             stylesheet.extend([{
                 "selector" : f".{tis}_T",
-                "style" : {"display" : "elements"}
+                "style" : {"display" : "element"}
             }])
 
         readMapping(df = combinedDf,finalNodes=finalNodes,finalEdges=finalEdges,finalNodeSet=finalNodeSet)
@@ -385,10 +394,10 @@ def processElements(elements, allowedTissues):
 
     #processing nodes
     for ele in elements:
-        label = ele.get("data").get("label")
+        label = ele.get("data").get("source")
         cl = ele.get("data").get("tissueClass")
 
-        if label is None:
+        if label:
             continue
         
         if cl is None:
@@ -442,9 +451,8 @@ def handlePhysiologicalSelection(val,stylesheet, elements):
             selector = style.get('selector')
 
             if 'T_' == selector[-1:-3:-1]:
-                
                 if list(physiologicalSystemDf[(physiologicalSystemDf['Tissue'] == selector[1:-2])]['Physiological System'])[0] in val:
-                    style.get('style')['display'] = 'elements'
+                    style.get('style')['display'] = 'element'
                     show_stylesheet.append(style)
                 else:
                     style.get('style')['display'] = 'none'
@@ -467,7 +475,7 @@ def handlePhysiologicalSelection(val,stylesheet, elements):
     else:
         for style in stylesheet:
             if 'T_' == style.get('selector')[-1:-3:-1]:
-                style.get('style')['display'] = 'elements'
+                style.get('style')['display'] = 'element'
 
         return stylesheet, elements
     
@@ -523,7 +531,7 @@ def handleTissueSelection(tisOptions, stylesheet,phySystemOptions,elements):
             if 'T_' == selector[-1:-3:-1]:
                 # print(physiologicalSystemDf[(physiologicalSystemDf['Tissue'] == selector[:-2][1:])]['Physiological System'])
                 if selector[:-2][1:] in tisOptions:
-                    style.get('style')['display'] = 'elements'
+                    style.get('style')['display'] = 'element'
                     show_stylesheet.append(style)
                 else:
                     style.get('style')['display'] = 'none'
@@ -542,6 +550,38 @@ def handleTissueSelection(tisOptions, stylesheet,phySystemOptions,elements):
     else:
         return handlePhysiologicalSelection(phySystemOptions,stylesheet, elements)
     
+@app.callback(
+    Output('hoverTooltip', 'style'),
+    Output('tooltip-content', 'children'),
+    Input('cytoscape', 'tapEdgeData'),
+    Input('close-tooltip', 'n_clicks'),
+    State('cytoscape-mousemove-listener', 'event'),  # Now as Input
+    State('hoverTooltip', 'style'),
+)
+def display_hover(tap_edge_data, close_click, event, style):
+    ctx = dash.callback_context
+
+    if not ctx.triggered:
+        style['display'] = 'none'
+        return style, ''
+    
+    triggered_id = ctx.triggered[0]['prop_id'].split('.')[0]
+    # print(f"Triggered by: {triggered_id}")
+
+    if triggered_id == 'close-tooltip':
+        style['display'] = 'none'
+        return style, ''
+
+    if triggered_id == 'tapEdgeData':
+        # print(f"Coordinates: {coord}")
+        style['display'] = 'block'
+        style['top'] = f"{event['clientY']}px"
+        style['left'] = f"{event['clientX']}px"
+        return style, f"source: {tap_edge_data['source']} to target: {tap_edge_data['target']}"
+    else:
+        style['display'] = 'none'
+        return style, ''
+    
 ###########################################################################################################
 with open("D:/Raylab/LiMeNEx/SBML_Network/pathwayDropdownOptions.json", 'r') as file:
     # Load the JSON data
@@ -559,6 +599,8 @@ with open("D:/Raylab/LiMeNEx/SBML_Network/pathwayDropdownOptions.json", 'r') as 
 # elements = finalNodes + finalEdges
 
 app.layout = html.Div([
+    dcc.Store(id='mouse-coordinates', data={'x' : 0,'y' : 0}),
+
     dcc.Dropdown(
         id = 'pathwayDropdownOptions',
         options=[
@@ -590,13 +632,19 @@ app.layout = html.Div([
         optionHeight=30,
         placeholder="Select one or more Tissue"
     ),
-    cyto.Cytoscape(
-        id='cytoscape',
-        elements=[],
-        layout={'name': 'cose-bilkent'},  #dagre, cose-bilkent, 
-        style={'width': '100%', 'height': '600px'},
-        boxSelectionEnabled = True,
-        stylesheet=ex_stylesheet
+    EventListener(
+        id='cytoscape-mousemove-listener',
+        events=[{"event": "click", "props": ["clientX", "clientY"]}],
+        children = [
+            cyto.Cytoscape(
+                id='cytoscape',
+                elements=[],
+                layout={'name': 'cose-bilkent'},  #dagre, cose-bilkent, 
+                style={'width': '100%', 'height': '600px'},
+                boxSelectionEnabled = True,
+                stylesheet=ex_stylesheet
+            )
+        ]
     ),
     html.Div(id='hoverTooltip', style={
         'display': 'none',
@@ -607,56 +655,29 @@ app.layout = html.Div([
         'textAlign': 'center',
         'borderRadius': '0.25em',
         'whiteSpace': 'nowrap',
-        'zIndex': '1000',
-        'pointerEvents': 'none'
-    }),
-    dcc.Store(id='mouse-coordinates')
+        'zIndex': '1001',
+        'pointerEvents': 'auto'
+    },
+        children=[
+                html.Button('X', id='close-tooltip', n_clicks=0, style={
+                    'position': 'absolute',
+                    'top': '2px',
+                    'right': '2px',
+                    'background': 'transparent',
+                    'border': 'none',
+                    'color': 'white',
+                    'cursor': 'pointer',
+                    'fontSize': '12px',
+                    'lineHeight': '12px',
+                }),
+                # Content of the tooltip
+                html.Div(id='tooltip-content', style={'marginTop': '1.2em'})  # Adding top margin to separate from button
+            ]
+    )
+    # html.Div(id="mouse-coordinates")
 ])
 
-@app.callback(
-    Output('hoverTooltip', 'style'),
-    Output('hoverTooltip', 'children'),
-    Input('cytoscape', 'mouseoverEdgeData'),
-    State('hoverTooltip', 'style'),
-)
-def display_hover(data,style):
-    if data:
-        # print(json.dumps(data,indent=2))
-        style['display'] = 'none'
-        return style, f"source: {data['source']} to target: {data['target']}"
-    else:
-        style['display'] = 'none'
-        return style, ''
 
-app.clientside_callback(
-    """
-    function() {
-        var cyto = document.getElementById('cytoscape');
-        var tooltip = document.getElementById('hoverTooltip');
-
-        console.log("Here1")
-        var temp = document.getElementById('s30_re16_mid')
-        if(temp){
-            console.log("Here2")
-        }
-
-        if (cyto && tooltip) {
-            cyto.addEventListener('mousemove', function(event) {
-                tooltip.style.top = event.pageY + 10 + 'px';
-                tooltip.style.left = event.pageX + 10 + 'px';
-            });
-
-            cyto.addEventListener('mouseout', function(event) {
-                if (event.target === cyto) {
-                    tooltip.style.display = 'none';
-                }
-            });
-        }
-    }
-    """,
-    Output('mouse-coordinates', 'data'),
-    Input('cytoscape', 'mouseoverEdgeData')
-)
 
 if __name__ == '__main__':
     app.run_server(debug=True, port = 6060)

@@ -146,3 +146,4 @@ Metabolic,pancreas,ESC-derived pancreatic endoderm
 Other,skin,"epidermis, melanocytes"
 Metabolic,kidney,"epithelium, 786-O cells"
 Other,stemcells,"pluripotent, ESCs, H9 cells"
+Metabolic,liver,whole liver

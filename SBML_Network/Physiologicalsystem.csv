@@ -74,6 +74,7 @@ Male Reproductive,testis,
 Male Reproductive,epididymis,
 Male Reproductive,other,
 Neurosensory,pns,
+Neurosensory,sns,
 Neurosensory,cns,"other, glioblastoma cells, U-87 MG cells"
 Neurosensory,cns,"cerebrum, PFSK-1 cells"
 Neurosensory,cns,"cerebellum, astrocytes"

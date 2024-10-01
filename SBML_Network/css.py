@@ -1,7 +1,7 @@
 ex_stylesheet = [
     # Style for Gene nodes
     {
-        'selector': '.transcriptionFactorGene',
+        'selector': 'node.transcriptionFactorGene[label]',
         'style': {
             'shape': 'rectangle',
             'background-color': '#FF4136',
@@ -16,7 +16,7 @@ ex_stylesheet = [
         }
     },
     {
-        'selector': '.enzymaticGene',
+        'selector': 'node.enzymaticGene[label]',
         'style': {
             'shape': 'rectangle',
             'background-color': 'green',
@@ -31,7 +31,7 @@ ex_stylesheet = [
     },
     # Style for Lipid nodes
     {
-        'selector': '.lipidMetabolite',
+        'selector': 'node.lipidMetabolite[label]',
         'style': {
             'shape': 'ellipse',
             'background-color': '#0074D9',
@@ -45,7 +45,7 @@ ex_stylesheet = [
         }
     },
     {
-        'selector': '.nonLipidSubstrate',
+        'selector': 'node.nonLipidSubstrate[label]',
         'style': {
             'shape': 'ellipse',
             'background-color': 'orange',
@@ -59,7 +59,7 @@ ex_stylesheet = [
         }
     },
     {
-        'selector': '.nonLipidMetabolite',
+        'selector': 'node.nonLipidMetabolite[label]',
         'style': {
             'shape': 'ellipse',
             'background-color': 'pink',
@@ -73,7 +73,7 @@ ex_stylesheet = [
         }
     },
     {
-        'selector': '.lipidSubstrate',
+        'selector': 'node.lipidSubstrate[label]',
         'style': {
             'shape': 'ellipse',
             'background-color': 'red',
@@ -88,7 +88,7 @@ ex_stylesheet = [
     },
     # Style for Temp nodes
     {
-        'selector': '.temp',
+        'selector': 'node.temp[label]',
         'style': {
             'shape': 'rectangle',
             'background-color': 'white',  # Set the background color to white
@@ -131,7 +131,7 @@ ex_stylesheet = [
             'target-arrow-shape': 'circle',
             'target-arrow-color': 'black',    # Set the border color of the circle
             'target-arrow-fill': 'hollow',
-            'target-arrow-size' : '0.6rem',
+            # 'target-arrow-size' : '0.6rem',
             'line-color': '#9D9D9D',
             'label': 'data(label)',
             'font-size': '10px',
@@ -145,7 +145,7 @@ ex_stylesheet = [
             'target-arrow-shape': 'triangle',
             'target-arrow-color': 'blue',    # Set the border color of the circle
             'target-arrow-fill': 'hollow',
-            'target-arrow-size' : '0.6rem',
+            # 'target-arrow-size' : '0.6rem',
             'line-color': 'blue',
             'label': 'data(label)',
             'font-size': '10px',
@@ -159,7 +159,7 @@ ex_stylesheet = [
             'target-arrow-shape': 'triangle',
             'target-arrow-color': 'black',    # Set the border color of the circle
             'target-arrow-fill': 'hollow',
-            'target-arrow-size' : '0.6rem',
+            # 'target-arrow-size' : '0.6rem',
             'line-color': 'black',
             'line-style' : 'dashed',
             'label': 'data(label)',
