@@ -1,7 +1,7 @@
 ex_stylesheet = [
     # Style for Gene nodes
     {
-        'selector': 'node.transcriptionFactorGene[label]',
+        'selector': '.transcriptionFactorGene',
         'style': {
             'shape': 'rectangle',
             'background-color': '#FF4136',
@@ -16,7 +16,7 @@ ex_stylesheet = [
         }
     },
     {
-        'selector': 'node.enzymaticGene[label]',
+        'selector': '.enzymaticGene',
         'style': {
             'shape': 'rectangle',
             'background-color': 'green',
@@ -31,7 +31,7 @@ ex_stylesheet = [
     },
     # Style for Lipid nodes
     {
-        'selector': 'node.lipidMetabolite[label]',
+        'selector': '.lipidMetabolite',
         'style': {
             'shape': 'ellipse',
             'background-color': '#0074D9',
@@ -45,7 +45,7 @@ ex_stylesheet = [
         }
     },
     {
-        'selector': 'node.nonLipidSubstrate[label]',
+        'selector': '.nonLipidSubstrate',
         'style': {
             'shape': 'ellipse',
             'background-color': 'orange',
@@ -59,7 +59,7 @@ ex_stylesheet = [
         }
     },
     {
-        'selector': 'node.nonLipidMetabolite[label]',
+        'selector': '.nonLipidMetabolite',
         'style': {
             'shape': 'ellipse',
             'background-color': 'pink',
@@ -73,7 +73,7 @@ ex_stylesheet = [
         }
     },
     {
-        'selector': 'node.lipidSubstrate[label]',
+        'selector': '.lipidSubstrate',
         'style': {
             'shape': 'ellipse',
             'background-color': 'red',
@@ -88,7 +88,7 @@ ex_stylesheet = [
     },
     # Style for Temp nodes
     {
-        'selector': 'node.temp[label]',
+        'selector': '.temp',
         'style': {
             'shape': 'rectangle',
             'background-color': 'white',  # Set the background color to white

@@ -2,13 +2,16 @@ import xml.etree.ElementTree as ET
 import pandas as pd
 
 import dash
-from dash import dcc, html, Input, Output, State
+from dash import dcc, html, Input, Output, State, dash_table
 import dash_cytoscape as cyto
 import json
 import os
 from css import ex_stylesheet
 from itertools import chain
 from dash_extensions import EventListener
+import diskcache
+from dash.long_callback import DiskcacheLongCallbackManager
+import io
 
 
 ns = {'celldesigner': 'http://www.sbml.org/2001/ns/celldesigner', '': 'http://www.sbml.org/sbml/level2/version4',
@@ -137,7 +140,8 @@ def readSbml(filePath,finalNodes,finalNodeSet,finalEdges,reactionNum):
                     'source' : reactant,
                     'target' :f"mid_{reactionId}",
                     'classes' : 'first_half',
-                    'label' : ""
+                    'label' : "",
+                    'reactInfo' : reactData['reactInfo']
                 },
                 'classes' : 'first_half'
             })
@@ -148,7 +152,8 @@ def readSbml(filePath,finalNodes,finalNodeSet,finalEdges,reactionNum):
                     'source' : f"mid_{reactionId}",
                     'target' : reactant,
                     'classes' : 'second_half',
-                    'label': ""
+                    'label': "",
+                    'reactInfo' : reactData['reactInfo']
                 },
                 'classes' : 'second_half'
             })
@@ -159,7 +164,8 @@ def readSbml(filePath,finalNodes,finalNodeSet,finalEdges,reactionNum):
                     'source' : gene,
                     'target' : f"mid_{reactionId}",
                     'classes' : modification,
-                    'label' : ""
+                    'label' : "",
+                    'reactInfo' : reactData['reactInfo']
                 },
                 'classes' : modification
             })
@@ -169,14 +175,14 @@ def readSbml(filePath,finalNodes,finalNodeSet,finalEdges,reactionNum):
 
     return
 
-def readMapping(df, finalNodes, finalEdges,finalNodeSet):
-
-    global followers_node_di  # user id -> list of followers (cy_node format)
-    global followers_edges_di # user id -> list of cy edges ending at user id
+def readMapping(df, finalNodes, finalEdges,finalNodeSet,followers_node_di,followers_edges_di):
 
     transcriptionFactor = df['TF'].unique()
     targetGene = df['TargetGene'].unique()
 
+    tfLen = len(transcriptionFactor)
+    inc = (1/tfLen)*10
+    st = 0
     # nodes = []
     # edges = []
     for tf in transcriptionFactor:
@@ -230,37 +236,46 @@ def readMapping(df, finalNodes, finalEdges,finalNodeSet):
                         ele.get("data")["tissueClass"] = f"{ele.get('classes')} {nodeTissues}"
                         break
                 #####################################################################
+        yield str(st)
+        st+=inc
     
-    return followers_node_di, followers_edges_di
+    return str(st)
 
 ########################################################################################################
-
-
-app = dash.Dash(__name__)
 
 cyto.load_extra_layouts()
 basePath = 'D:/Raylab/LiMeNEx/SBML_Network'
 
-followers_node_di = {}
-followers_edges_di = {}
+cache = diskcache.Cache("./cache")
+long_callback_manager = DiskcacheLongCallbackManager(cache)
 
+app = dash.Dash(__name__,long_callback_manager=long_callback_manager)
 #########################################################################################################
 
-@app.callback(
+@app.long_callback(
     Output('cytoscape', 'elements',allow_duplicate=True),
     Output('cytoscape','stylesheet', allow_duplicate=True),
+    Output('followers-node-store','data'),
+    Output('followers-edge-store','data'),
+    Output('dataframe-store','data'),
     Input('pathwayDropdownOptions', 'value'),
     State('cytoscape','stylesheet'),
+    running=[
+        (
+            Output("progress-container", "style"),
+            {"display": "block","value" : '0','max' : '10',"position":"fixed","top":"0","left":"0","zIndex" : '1002', "width": "100vw", "height": "100vh",  "background": "rgba(0, 0, 0, 0.5)", "backdrop-filter": "blur(5px)"},
+            {"display": "none"},
+        )
+    ],
+    progress=[Output("progress-bar", "value"), Output("progress-bar", "max")],
     prevent_initial_call = True
 )
-def handlePathwaySelection(optionList, stylesheet):
+def handlePathwaySelection(set_progress,optionList,stylesheet):
     if optionList is None:
-        return [], stylesheet
+        return [], stylesheet,{},{},{}
 
     if len(optionList) != 0:
-
-        global followers_node_di
-        global followers_edges_di 
+        set_progress(('0','10'))
 
         followers_edges_di = {}
         followers_node_di = {}
@@ -271,8 +286,15 @@ def handlePathwaySelection(optionList, stylesheet):
         finalReactionList = []
         reactionNum = 1
 
+        total_files = len(optionList)
+        try:
+            inc = 10/total_files
+        except:
+            set_progress(('10','10'))
+        # init = 0
+
         dfList = []
-        for fileName in optionList:
+        for i,fileName in enumerate(optionList):
             filePathSbml = os.path.join(basePath,'networkFile',f"{fileName}.xml")
             filePathTf = os.path.join(basePath,'pathwayTfs',f"{fileName}.csv")
             readSbml(filePath=filePathSbml,finalNodes=finalNodes,finalNodeSet=finalNodeSet,finalEdges=finalEdges, reactionNum=reactionNum)
@@ -280,59 +302,60 @@ def handlePathwaySelection(optionList, stylesheet):
             if os.path.exists(filePathTf):
                 temp = pd.read_csv(filePathTf)
                 dfList.append(temp)
-        
-        combinedDf = pd.concat(dfList, ignore_index=True)
+
+        df = pd.concat(dfList, ignore_index=True)
 
         # adding display stylesheet for each tissue
-        uniqueTissue = combinedDf['Tissue'].unique()
+        uniqueTissue = df['Tissue'].unique()
         for tis in uniqueTissue:
             stylesheet.extend([{
                 "selector" : f".{tis}_T",
                 "style" : {"display" : "element"}
             }])
+        
+        for progress in readMapping(df=df,finalNodes=finalNodes,finalEdges=finalEdges, finalNodeSet=finalNodeSet,followers_node_di=followers_node_di,followers_edges_di=followers_edges_di):
+            set_progress((progress,'10'))
 
-        readMapping(df = combinedDf,finalNodes=finalNodes,finalEdges=finalEdges,finalNodeSet=finalNodeSet)
-
-        return finalNodes+finalEdges, stylesheet
+        # print(followers_edges_di)
+        dataframe_json = df.to_json(orient='split')
+        return finalNodes+finalEdges, stylesheet,followers_node_di,followers_edges_di,dataframe_json
     else:
         new_stylesheet = []
         for style in stylesheet:
             if 'T_' != style.get('selector')[-1:-3:-1]:
                 new_stylesheet.append(style)
 
-        return [], new_stylesheet
+        return [], new_stylesheet,{},{},{}
 
 @app.callback(
     Output("cytoscape", "stylesheet", allow_duplicate=True),
     Output("cytoscape", "elements", allow_duplicate=True),
-    Input("cytoscape", "tapNodeData"),
+    Output('hoverTooltip','style',allow_duplicate=True),
+    Input("tfsButton", "n_clicks"),
     State("cytoscape", "elements"),
     State("cytoscape", 'stylesheet'),
     State("physiologicalDropdownOptions", "value"),
     State("tissueDropdownOptions", "value"),
+    State("followers-node-store",'data'),
+    State('followers-edge-store','data'),
+    State('cytoscape','tapNodeData'),
+    State('hoverTooltip','style'),
     prevent_initial_call=True,
 )
-def generateTfs(nodeData, elements,stylesheet,physOptions,tisOptions):
-    global followers_node_di
-    global followers_edges_di
-    
-    # print(json.dumps(elements,indent=2))
+def generateTfs(n_clicks, elements,stylesheet,physOptions,tisOptions, followers_node_di,followers_edges_di,nodeData,hoverStyle):
 
+    # print(followers_edges_di)
+    # print(json.dumps(elements,indent=2)
     if not nodeData:
-        return stylesheet,elements
+        return stylesheet,elements,hoverStyle
 
     # Find the node in the elements list
     for element in elements:
+
         if nodeData["id"] == element.get("data").get("id"):
             # If the node is already expanded, remove its followers
             # print(nodeData)
             if element["data"].get("expanded"):
-                element["data"]["expanded"] = False
-                # Remove all followers associated with this node
-                followers_nodes = followers_node_di.get(nodeData["id"], [])
-                followers_edges = followers_edges_di.get(nodeData["id"], [])
-
-                elements = [el for el in elements if el not in followers_nodes or el not in followers_edges]
                 break
             else:
                 # If the node is not expanded, set it to expanded and add followers
@@ -347,13 +370,15 @@ def generateTfs(nodeData, elements,stylesheet,physOptions,tisOptions):
                     elements.extend(followers_edges)
                 break
     
+    hoverStyle['display'] = 'none'
     if ((tisOptions is None) or len(tisOptions) == 0) and (physOptions is None or len(physOptions) == 0):
-        return stylesheet, elements
+        return stylesheet, elements,hoverStyle
     elif (tisOptions is not None) and len(tisOptions) != 0:
-        return handleTissueSelection(tisOptions=tisOptions,stylesheet=stylesheet,phySystemOptions=physOptions,elements=elements)
+        
+        return handleTissueSelection(tisOptions=tisOptions,stylesheet=stylesheet,phySystemOptions=physOptions,elements=elements),hoverStyle
     else:
-        return handlePhysiologicalSelection(val=physOptions,stylesheet=stylesheet,elements=elements)
-
+        return handlePhysiologicalSelection(val=physOptions,stylesheet=stylesheet,elements=elements),hoverStyle
+    
 
 def processElements(elements, allowedTissues):
 
@@ -383,15 +408,18 @@ def processElements(elements, allowedTissues):
         if len(commonTissue) != 0:
             newClassFormat = [firstClass] + commonTissue
             tfList.add(src)
+            # print(newClassFormat)
         else:
             newClassFormat = [firstClass] + notAllowed
         
         newClassFormat = " ".join(newClassFormat)
+
+        # print(src,":",newClassFormat)
         newElements.append({
             'data' : ele.get("data"),
             'classes' : newClassFormat
         })
-
+    # print(tfList)
     #processing nodes
     for ele in elements:
         label = ele.get("data").get("source")
@@ -406,7 +434,7 @@ def processElements(elements, allowedTissues):
                 'classes' : ele.get("data").get("classes")
             })
             continue
-
+        
         cl = cl.split(" ")
         firstClass = cl[0]
         cl = cl[1:]
@@ -414,12 +442,16 @@ def processElements(elements, allowedTissues):
         commonTissue = list(allowedTissues & set(cl))
         notAllowed = list(set(cl) - set(commonTissue))
 
+        label = ele.get('data').get('label')
+
         if label in tfList:
             newClassFormat = [firstClass] + commonTissue
         else:
             newClassFormat = [firstClass] + notAllowed
 
         newClassFormat = " ".join(newClassFormat)
+
+        # print(label," : ",newClassFormat)
         newElements.append({
             'data' : ele.get("data"),
             'classes' : newClassFormat
@@ -464,9 +496,12 @@ def handlePhysiologicalSelection(val,stylesheet, elements):
         basic_stylesheet.extend(show_stylesheet)
         basic_stylesheet.extend(hide_stylesheet)
 
+        # print(json.dumps(basic_stylesheet,indent=2))
+
         allowedTissues = list(chain(*[psToTissue[sys] for sys in val]))
         allowedTissues = set([var+"_T" for var in allowedTissues])
 
+        print(allowedTissues)
         # print(allowedTissues)
         newElements = processElements(elements,allowedTissues)
 
@@ -550,37 +585,102 @@ def handleTissueSelection(tisOptions, stylesheet,phySystemOptions,elements):
     else:
         return handlePhysiologicalSelection(phySystemOptions,stylesheet, elements)
     
+
 @app.callback(
-    Output('hoverTooltip', 'style'),
-    Output('tooltip-content', 'children'),
+    Output('hoverTooltip','style',allow_duplicate=True),
+    Output('showProof', 'data'),
+    Output('tooltip-text-content', 'children'),
+    Output('tooltip-text-content', 'style'),
+    Output('tfsButton','style'),
+    Output('citationsButton','style'),
+    Output('uniprotButton','style'),
+    Input("cytoscape", "tapNodeData"),
     Input('cytoscape', 'tapEdgeData'),
-    Input('close-tooltip', 'n_clicks'),
-    State('cytoscape-mousemove-listener', 'event'),  # Now as Input
-    State('hoverTooltip', 'style'),
+    State('hoverTooltip','style'),
+    State('tooltip-text-content','style'),
+    State('dataframe-store','data'),
+    State('cytoscape-mousemove-listener', 'event'),
+    State('tfsButton','style'),
+    State('citationsButton','style'),
+    State('uniprotButton','style'),
+    prevent_initial_call = True
 )
-def display_hover(tap_edge_data, close_click, event, style):
+def tapNodeAndEdge(nodeData,edgeData,hoverStyle,hoverTextStyle,dataframe_json,event,tfsButtonsStyle,citationButtonStyle,uniprotButtonStyle):
     ctx = dash.callback_context
 
     if not ctx.triggered:
-        style['display'] = 'none'
-        return style, ''
+        hoverStyle['display'] = 'none'
+        return hoverStyle, pd.DataFrame().to_dict('records'), "",hoverTextStyle,tfsButtonsStyle,citationButtonStyle, uniprotButtonStyle
     
-    triggered_id = ctx.triggered[0]['prop_id'].split('.')[0]
-    # print(f"Triggered by: {triggered_id}")
+    # print(ctx.triggered)
+    triggered_id = ctx.triggered[0]['prop_id']
 
-    if triggered_id == 'close-tooltip':
-        style['display'] = 'none'
-        return style, ''
+    if triggered_id == 'cytoscape.tapNodeData':
+        
+        hoverTextStyle['display'] = 'none'
+        hoverStyle['display'] = 'block'
+        hoverStyle['top'] = f"{event['clientY']}px"
+        hoverStyle['left'] = f"{event['clientX']}px"
 
-    if triggered_id == 'tapEdgeData':
-        # print(f"Coordinates: {coord}")
-        style['display'] = 'block'
-        style['top'] = f"{event['clientY']}px"
-        style['left'] = f"{event['clientX']}px"
-        return style, f"source: {tap_edge_data['source']} to target: {tap_edge_data['target']}"
+        # print(nodeData)
+        transNode = nodeData.get('tissueClass')
+        if transNode:
+            tfsButtonsStyle['display'] = 'none',
+            citationButtonStyle['display'] = 'block'
+            uniprotButtonStyle['display'] = 'block'
+
+            return hoverStyle, pd.DataFrame().to_dict('records'), "",hoverTextStyle, tfsButtonsStyle,citationButtonStyle,uniprotButtonStyle
+        else:
+            tfsButtonsStyle['display'] = 'block',
+            citationButtonStyle['display'] = 'none'
+            uniprotButtonStyle['display'] = 'block'
+
+            return hoverStyle, pd.DataFrame().to_dict('records'), "",hoverTextStyle, tfsButtonsStyle,citationButtonStyle,uniprotButtonStyle
+    
+    else:
+        df = pd.read_json(io.StringIO(dataframe_json), orient='split')
+
+        source = edgeData['source']
+        target = edgeData['target']
+
+        transEdge = edgeData.get("tissueClass")
+
+        hoverStyle['display'] = 'block'
+        hoverStyle['top'] = f"{event['clientY']}px"
+        hoverStyle['left'] = f"{event['clientX']}px"
+
+        hoverTextStyle['display'] = 'block'
+
+        tfsButtonsStyle['display'] ='none'
+        citationButtonStyle['display'] = 'none'
+        uniprotButtonStyle['display'] = 'none'
+
+        if transEdge:
+            # print(source, target)
+            mask = (df['TF'] == source) & (df['TargetGene'] == target)
+            temp = df[mask]
+            # f"source: {edgeData['source']} to target: {edgeData['target']}"
+            return hoverStyle, temp.to_dict('records'),"",hoverTextStyle, tfsButtonsStyle,citationButtonStyle,uniprotButtonStyle
+        else:
+            reactType = edgeData.get("reactInfo")
+            return hoverStyle,pd.DataFrame().to_dict('records'),f"Reaction Type {reactType}",hoverTextStyle,tfsButtonsStyle,citationButtonStyle,uniprotButtonStyle
+
+
+
+@app.callback(
+    Output('hoverTooltip','style', allow_duplicate=True),
+    Input('close-tooltip', 'n_clicks'),
+    State('hoverTooltip', 'style'),
+    prevent_initial_call = True
+)
+def closeHover(n_clicks,style):
+    if n_clicks is None:
+        return style
+    
     else:
         style['display'] = 'none'
-        return style, ''
+        return style
+
     
 ###########################################################################################################
 with open("D:/Raylab/LiMeNEx/SBML_Network/pathwayDropdownOptions.json", 'r') as file:
@@ -600,7 +700,9 @@ with open("D:/Raylab/LiMeNEx/SBML_Network/pathwayDropdownOptions.json", 'r') as 
 
 app.layout = html.Div([
     dcc.Store(id='mouse-coordinates', data={'x' : 0,'y' : 0}),
-
+    dcc.Store(id='followers-node-store'),
+    dcc.Store(id='followers-edge-store'),
+    dcc.Store(id='dataframe-store'),
     dcc.Dropdown(
         id = 'pathwayDropdownOptions',
         options=[
@@ -647,33 +749,124 @@ app.layout = html.Div([
         ]
     ),
     html.Div(id='hoverTooltip', style={
-        'display': 'none',
-        'position': 'absolute',
-        'padding': "0.25em 0.5em",
-        'backgroundColor': 'black',
-        'color': 'white',
-        'textAlign': 'center',
-        'borderRadius': '0.25em',
-        'whiteSpace': 'nowrap',
-        'zIndex': '1001',
-        'pointerEvents': 'auto'
-    },
+            'display': 'none',
+            'position': 'absolute',
+            'padding': "0.25em 0.25em",
+            'backgroundColor': 'black',
+            'color': 'white',
+            'textAlign': 'center',
+            'borderRadius': '0.25em',
+            'whiteSpace': 'nowrap',
+            'zIndex': '1001',
+            'pointerEvents': 'auto',
+            'maxWidth': '400px',  # Set a max width for the tooltip
+            'maxHeight': '300px',  # Set a max height for the tooltip
+            'overflow': 'hidden',  # Ensure overflow is hidden on the outer container
+        },
         children=[
-                html.Button('X', id='close-tooltip', n_clicks=0, style={
-                    'position': 'absolute',
-                    'top': '2px',
-                    'right': '2px',
-                    'background': 'transparent',
-                    'border': 'none',
-                    'color': 'white',
-                    'cursor': 'pointer',
-                    'fontSize': '12px',
-                    'lineHeight': '12px',
-                }),
-                # Content of the tooltip
-                html.Div(id='tooltip-content', style={'marginTop': '1.2em'})  # Adding top margin to separate from button
-            ]
-    )
+            html.Button('X', id='close-tooltip', n_clicks=0, style={
+                'position': 'absolute',
+                'top': '2px',
+                'right': '2px',
+                'background': 'transparent',
+                'border': 'none',
+                'color': 'red',
+                'cursor': 'pointer',
+                'fontSize': '12px',
+                'lineHeight': '12px',
+            }),
+            # Tooltip Content Container
+            html.Div(style={
+                'marginTop': '0.8em',  # Adding top margin to separate from button
+                'maxHeight': '250px',  # Max height for table container
+                'overflowY': 'auto',   # Vertical scroll for table content
+                'overflowX': 'auto',   # Horizontal scroll for table content
+                'padding': '0.25em',    # Padding around the table
+                'border': '1px solid #444',  # Add a border around table for separation
+                'fontSize': '0.9em',
+            },
+                children=[
+                    dash_table.DataTable(
+                        id='showProof',
+                        style_table={
+                            'overflowX': 'auto',  # Ensure horizontal scrolling in the table
+                        },
+                        style_cell={
+                            'minWidth': '100px', 'maxWidth': '200px', 'width': '150px',  # Set cell width constraints
+                            'whiteSpace': 'normal',  # Allow cell content to wrap
+                            'textAlign': 'left',  # Align text to the left
+                            'backgroundColor': '#333',  # Background color for cells
+                            'color': 'white'  # Text color
+                        },
+                        style_header={
+                            'backgroundColor': 'black',  # Header background color
+                            'color': 'white',  # Header text color
+                            'fontWeight': 'bold'  # Bold font for headers
+                        },
+                        fixed_rows={'headers': True},  # Fix headers when scrolling vertically
+                    ),
+
+                    html.Div(id='tooltip-text-content', style={
+                            'padding' : '0.2em',
+                            'textAlign': 'left',
+                            'color': 'white',
+                            'backgroundColor': '#444',
+                            'border': '1px solid #555',
+                            'borderRadius': '0.25em',
+                            'maxHeight': '80px',
+                            'overflowY': 'auto',
+                        },
+                    ),
+                    html.Div(
+                        id = 'hoverButtons',
+                        style={
+                            'marginTop': '0.8em',
+                            'display': 'flex',
+                            'justifyContent': 'space-around',
+                            'dispaly' : 'block'
+                        },
+                        children=[
+                            html.Button('Uniprot', id='uniprotButton', n_clicks=0, style={
+                                'backgroundColor': '#0052cc',
+                                'color': 'white',
+                                'border': 'none',
+                                'borderRadius': '0.25em',
+                                'padding': '0.5em 1em',
+                                'cursor': 'pointer',
+                                'margin' : '0 0.5em'
+                            }),
+                            html.Button('Show TFs', id='tfsButton', n_clicks=0, style={
+                                'backgroundColor': '#28a745',
+                                'color': 'white',
+                                'border': 'none',
+                                'borderRadius': '0.25em',
+                                'padding': '0.5em 1em',
+                                'cursor': 'pointer',
+                                'margin' : '0 0.5em'
+                            }),
+                            html.Button('Citations', id='citationsButton', n_clicks=0, style={
+                                'backgroundColor': '#dc3545',
+                                'color': 'white',
+                                'border': 'none',
+                                'borderRadius': '0.25em',
+                                'padding': '0.5em 1em',
+                                'cursor': 'pointer',
+                                'margin' : '0 0.5em'
+                            })
+                        ]
+                    )
+                ]
+            )
+        ]
+    ),
+    html.Div(
+        id='progress-container',
+        style={'display': 'none'},
+        children=[
+            html.Progress(id='progress-bar',style = {'position': 'absolute','top' : '50%', 'left' : '30%','width' : '40%','height' : '15px'})
+        ]
+    ),
+    # html.Div(id='background-blur', style={'display': 'none'})
     # html.Div(id="mouse-coordinates")
 ])
 

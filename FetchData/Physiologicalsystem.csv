@@ -147,3 +147,11 @@ Other,skin,"epidermis, melanocytes"
 Metabolic,kidney,"epithelium, 786-O cells"
 Other,stemcells,"pluripotent, ESCs, H9 cells"
 Metabolic,liver,whole liver
+Male Reproductive,prostate,"epithelium, RWPE1 cells"
+Female reproductive,uterus,"endometrium, other, primary tumor"
+Blood,hspcs,bone marrow
+Male Reproductive,prostate,"epithelium, PC3 cells"
+Other,stemcells,"pluripotent, NCCIT cells"
+Other,skin,"fibroblasts, GM06170 cells"
+Other,skin,"fibroblasts, GM00011 cells"
+Male Reproductive,prostate,"other, prostate tumor, metastatic"
