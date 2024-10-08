@@ -251,6 +251,18 @@ long_callback_manager = DiskcacheLongCallbackManager(cache)
 
 app = dash.Dash(__name__,long_callback_manager=long_callback_manager)
 #########################################################################################################
+@app.callback(
+    Output('pathwayDropdownOptions', 'value'),
+    Input('pathwayDropdownOptions', 'value')
+)
+def update_pathway_selection(selected_values):
+    if selected_values and 'ALL' in selected_values:
+        global pathwayDropdownOptions
+        # Replace 'ALL' with the full list of pathway values
+        all_pathway_values = list(pathwayDropdownOptions.values())
+        return all_pathway_values
+    return selected_values
+
 
 @app.long_callback(
     Output('cytoscape', 'elements',allow_duplicate=True),
@@ -258,7 +270,8 @@ app = dash.Dash(__name__,long_callback_manager=long_callback_manager)
     Output('followers-node-store','data'),
     Output('followers-edge-store','data'),
     Output('dataframe-store','data'),
-    Input('pathwayDropdownOptions', 'value'),
+    Input('fetchPathwaysButton','n_clicks'),
+    State('pathwayDropdownOptions', 'value'),
     State('cytoscape','stylesheet'),
     running=[
         (
@@ -270,7 +283,7 @@ app = dash.Dash(__name__,long_callback_manager=long_callback_manager)
     progress=[Output("progress-bar", "value"), Output("progress-bar", "max")],
     prevent_initial_call = True
 )
-def handlePathwaySelection(set_progress,optionList,stylesheet):
+def handlePathwaySelection(set_progress,n_clicks,optionList,stylesheet):
     if optionList is None:
         return [], stylesheet,{},{},{}
 
@@ -303,18 +316,21 @@ def handlePathwaySelection(set_progress,optionList,stylesheet):
                 temp = pd.read_csv(filePathTf)
                 dfList.append(temp)
 
-        df = pd.concat(dfList, ignore_index=True)
+        df = pd.DataFrame()
 
-        # adding display stylesheet for each tissue
-        uniqueTissue = df['Tissue'].unique()
-        for tis in uniqueTissue:
-            stylesheet.extend([{
-                "selector" : f".{tis}_T",
-                "style" : {"display" : "element"}
-            }])
-        
-        for progress in readMapping(df=df,finalNodes=finalNodes,finalEdges=finalEdges, finalNodeSet=finalNodeSet,followers_node_di=followers_node_di,followers_edges_di=followers_edges_di):
-            set_progress((progress,'10'))
+        if len(dfList) != 0:
+            df = pd.concat(dfList, ignore_index=True)
+
+            # adding display stylesheet for each tissue
+            uniqueTissue = df['Tissue'].unique()
+            for tis in uniqueTissue:
+                stylesheet.extend([{
+                    "selector" : f".{tis}_T",
+                    "style" : {"display" : "element"}
+                }])
+            
+            for progress in readMapping(df=df,finalNodes=finalNodes,finalEdges=finalEdges, finalNodeSet=finalNodeSet,followers_node_di=followers_node_di,followers_edges_di=followers_edges_di):
+                set_progress((progress,'10'))
 
         # print(followers_edges_di)
         dataframe_json = df.to_json(orient='split')
@@ -356,7 +372,7 @@ def generateTfs(n_clicks, elements,stylesheet,physOptions,tisOptions, followers_
             # If the node is already expanded, remove its followers
             # print(nodeData)
             if element["data"].get("expanded"):
-                break
+                return stylesheet,elements,hoverStyle
             else:
                 # If the node is not expanded, set it to expanded and add followers
                 element["data"]["expanded"] = True
@@ -500,9 +516,6 @@ def handlePhysiologicalSelection(val,stylesheet, elements):
 
         allowedTissues = list(chain(*[psToTissue[sys] for sys in val]))
         allowedTissues = set([var+"_T" for var in allowedTissues])
-
-        print(allowedTissues)
-        # print(allowedTissues)
         newElements = processElements(elements,allowedTissues)
 
         return basic_stylesheet, newElements
@@ -594,6 +607,7 @@ def handleTissueSelection(tisOptions, stylesheet,phySystemOptions,elements):
     Output('tfsButton','style'),
     Output('citationsButton','style'),
     Output('uniprotButton','style'),
+    Output('citationsLink','href'),
     Input("cytoscape", "tapNodeData"),
     Input('cytoscape', 'tapEdgeData'),
     State('hoverTooltip','style'),
@@ -610,13 +624,24 @@ def tapNodeAndEdge(nodeData,edgeData,hoverStyle,hoverTextStyle,dataframe_json,ev
 
     if not ctx.triggered:
         hoverStyle['display'] = 'none'
-        return hoverStyle, pd.DataFrame().to_dict('records'), "",hoverTextStyle,tfsButtonsStyle,citationButtonStyle, uniprotButtonStyle
+        return hoverStyle, pd.DataFrame().to_dict('records'), "",hoverTextStyle,tfsButtonsStyle,citationButtonStyle, uniprotButtonStyle,""
     
     # print(ctx.triggered)
     triggered_id = ctx.triggered[0]['prop_id']
 
     if triggered_id == 'cytoscape.tapNodeData':
         
+        classType1 = nodeData.get("classes")
+        classType2 = nodeData.get("tissueClass")
+
+        if classType1 is not None:
+            classType = classType1.split(" ")[0]
+        else:
+            classType = classType2.split(" ")[0]
+
+        if classType not in ["transcriptionFactorGene","enzymaticGene"]:
+            return hoverStyle, pd.DataFrame().to_dict('records'), "",hoverTextStyle, tfsButtonsStyle,citationButtonStyle,uniprotButtonStyle,""
+
         hoverTextStyle['display'] = 'none'
         hoverStyle['display'] = 'block'
         hoverStyle['top'] = f"{event['clientY']}px"
@@ -629,13 +654,13 @@ def tapNodeAndEdge(nodeData,edgeData,hoverStyle,hoverTextStyle,dataframe_json,ev
             citationButtonStyle['display'] = 'block'
             uniprotButtonStyle['display'] = 'block'
 
-            return hoverStyle, pd.DataFrame().to_dict('records'), "",hoverTextStyle, tfsButtonsStyle,citationButtonStyle,uniprotButtonStyle
+            return hoverStyle, pd.DataFrame().to_dict('records'), "",hoverTextStyle, tfsButtonsStyle,citationButtonStyle,uniprotButtonStyle,"https://www.uniprot.org/uniprotkb/P53396/entry"
         else:
             tfsButtonsStyle['display'] = 'block',
             citationButtonStyle['display'] = 'none'
             uniprotButtonStyle['display'] = 'block'
 
-            return hoverStyle, pd.DataFrame().to_dict('records'), "",hoverTextStyle, tfsButtonsStyle,citationButtonStyle,uniprotButtonStyle
+            return hoverStyle, pd.DataFrame().to_dict('records'), "",hoverTextStyle, tfsButtonsStyle,citationButtonStyle,uniprotButtonStyle,"https://www.uniprot.org/uniprotkb/P53396/entry"
     
     else:
         df = pd.read_json(io.StringIO(dataframe_json), orient='split')
@@ -659,12 +684,31 @@ def tapNodeAndEdge(nodeData,edgeData,hoverStyle,hoverTextStyle,dataframe_json,ev
             # print(source, target)
             mask = (df['TF'] == source) & (df['TargetGene'] == target)
             temp = df[mask]
+            hoverTextStyle['display'] = 'none'
             # f"source: {edgeData['source']} to target: {edgeData['target']}"
-            return hoverStyle, temp.to_dict('records'),"",hoverTextStyle, tfsButtonsStyle,citationButtonStyle,uniprotButtonStyle
+            return hoverStyle, temp.to_dict('records'),"",hoverTextStyle, tfsButtonsStyle,citationButtonStyle,uniprotButtonStyle,""
         else:
             reactType = edgeData.get("reactInfo")
-            return hoverStyle,pd.DataFrame().to_dict('records'),f"Reaction Type {reactType}",hoverTextStyle,tfsButtonsStyle,citationButtonStyle,uniprotButtonStyle
+            return hoverStyle,pd.DataFrame().to_dict('records'),f"Reaction Type {reactType}",hoverTextStyle,tfsButtonsStyle,citationButtonStyle,uniprotButtonStyle,""
 
+@app.callback(
+    Output('showProof','data',allow_duplicate=True),
+    Input('citationsButton','n_clicks'),
+    State('cytoscape','tapNodeData'),
+    State('dataframe-store','data'),
+    prevent_initial_call = True
+)
+def showTfsCitiations(n_clicks,nodeData,dataframe_json):
+
+    if n_clicks is None:
+        return pd.DataFrame().to_dict('records')
+    else:
+        label = nodeData.get('label')
+        df = pd.read_json(io.StringIO(dataframe_json), orient='split')
+        mask = (df['TF'] == label)
+        temp = df[mask]
+        
+        return temp.to_dict('records')
 
 
 @app.callback(
@@ -688,11 +732,11 @@ with open("D:/Raylab/LiMeNEx/SBML_Network/pathwayDropdownOptions.json", 'r') as 
     dropdownOptions = json.load(file)
     pathwayDropdownOptions = dropdownOptions["PathwayOptions"]
     physiologicalSystemOptions = dropdownOptions["physiologicalOptions"]
-    physiologicalSystemDf = pd.read_csv('D:/Raylab/LiMeNEx/SBML_Network/Physiologicalsystem.csv')
 
-    psToTissue = {}
-    for ps in physiologicalSystemDf['Physiological System'].unique():
-        psToTissue[ps] = list(physiologicalSystemDf[(physiologicalSystemDf['Physiological System'] == ps)]['Tissue'].unique())
+physiologicalSystemDf = pd.read_csv('D:/Raylab/LiMeNEx/SBML_Network/Physiologicalsystem.csv')
+psToTissue = {}
+for ps in physiologicalSystemDf['Physiological System'].unique():
+    psToTissue[ps] = list(physiologicalSystemDf[(physiologicalSystemDf['Physiological System'] == ps)]['Tissue'].unique())
     
 
 
@@ -703,36 +747,97 @@ app.layout = html.Div([
     dcc.Store(id='followers-node-store'),
     dcc.Store(id='followers-edge-store'),
     dcc.Store(id='dataframe-store'),
-    dcc.Dropdown(
-        id = 'pathwayDropdownOptions',
-        options=[
-            {'label' : 'All Pathways', 'value' : 'ALL'},
-            *[{'label': key, 'value': pathwayDropdownOptions[key]} for key in pathwayDropdownOptions.keys()]
+    html.Div(
+        children=[
+            # First Row: Pathway Dropdown with Button
+            html.Div(
+                children=[
+                    dcc.Dropdown(
+                        id='pathwayDropdownOptions',
+                        options=[
+                            {'label': 'All Pathways', 'value': 'ALL'},
+                            *[{'label': key, 'value': pathwayDropdownOptions[key]} for key in pathwayDropdownOptions.keys()]
+                        ],
+                        multi=True,
+                        maxHeight=300,
+                        optionHeight=30,
+                        placeholder="Select one or more pathways",
+                        style={
+                            'width': '100%',  # Adjust width to make space for the button
+                            'marginRight': '10px'
+                        }
+                    ),
+                    html.Button(
+                        'Fetch Pathways',
+                        id='fetchPathwaysButton',
+                        n_clicks=0,
+                        style={
+                            'backgroundColor': '#fca117',
+                            'color': 'white',
+                            'border': 'none',
+                            'borderRadius': '5px',
+                            'padding': '5px',
+                            'cursor': 'pointer',
+                        }
+                    )
+                ],
+                style={
+                    'display': 'flex',
+                    'alignItems': 'center',
+                    'justifyContent' : 'space-between',
+                    'width': '100%',
+                    'marginBottom': '10px'  # Add spacing between rows
+                }
+            ),
+
+            # Second Row: Physiological and Tissue Dropdowns
+            html.Div(
+                children=[
+                    dcc.Dropdown(
+                        id='physiologicalDropdownOptions',
+                        options=[
+                            *[{'label': key, 'value': key} for key in physiologicalSystemOptions]
+                        ],
+                        multi=True,
+                        maxHeight=300,
+                        optionHeight=30,
+                        placeholder="Select one or more physiological System",
+                        style={
+                            'width': '100%',
+                            'marginRight': '10px'
+                        }
+                    ),
+                    dcc.Dropdown(
+                        id='tissueDropdownOptions',
+                        options=[
+                            {'label': 'Select Physiological System To View Tissues List', 'value': 'null'}
+                        ],
+                        multi=True,
+                        maxHeight=300,
+                        optionHeight=30,
+                        placeholder="Select one or more Tissue",
+                        style={
+                            'width': '100%'
+                        }
+                    )
+                ],
+                style={
+                    'display': 'flex',
+                    'alignItems': 'center',
+                    'width': '100%',
+                    'justifyContent' : 'space-between'
+                }
+            )
         ],
-        multi= True,
-        maxHeight=300,
-        optionHeight=30,
-        placeholder="Select one or more pathways"
-    ),
-    dcc.Dropdown(
-        id = 'physiologicalDropdownOptions',
-        options=[
-            *[{'label': key, 'value': key} for key in physiologicalSystemOptions]
-        ],
-        multi= True,
-        maxHeight=300,
-        optionHeight=30,
-        placeholder="Select one or more physiological System"
-    ),
-    dcc.Dropdown(
-        id = 'tissueDropdownOptions',
-        options=[
-            {'label': 'Select Physiological System To View Tissues List', 'value': 'null'}
-        ],
-        multi= True,
-        maxHeight=300,
-        optionHeight=30,
-        placeholder="Select one or more Tissue"
+        style={
+            'backgroundColor': '#292929',  # Set background color for entire container
+            'padding': '10px',  # Add padding for aesthetics
+            'boxShadow': '0 4px 8px rgba(0, 0, 0, 0.3)',  # Add shadow effect
+            'borderRadius': '5px',  # Rounded corners
+            'display': 'flex',
+            'flexDirection': 'column',  # Stack elements vertically
+            'justifyContent': 'space-between'
+        }
     ),
     EventListener(
         id='cytoscape-mousemove-listener',
@@ -786,6 +891,61 @@ app.layout = html.Div([
                 'fontSize': '0.9em',
             },
                 children=[
+                    html.Div(id='tooltip-text-content', style={
+                            'padding' : '0.2em',
+                            'textAlign': 'left',
+                            'color': 'white',
+                            'backgroundColor': '#444',
+                            'border': '1px solid #555',
+                            'borderRadius': '0.25em',
+                            'maxHeight': '80px',
+                            'overflowY': 'auto',
+                        },
+                    ),
+                    html.Div(
+                        id = 'hoverButtons',
+                        style={
+                            'margin': '0.4em',
+                            'display': 'flex',
+                            'justifyContent': 'space-around',
+                            'dispaly' : 'block'
+                        },
+                        children=[
+                            html.A(
+                                html.Button('Uniprot', id='uniprotButton', n_clicks=0, style={
+                                    'backgroundColor': '#0052cc',
+                                    'color': 'white',
+                                    'border': 'none',
+                                    'borderRadius': '0.25em',
+                                    'padding': '0.5em 1em',
+                                    'cursor': 'pointer',
+                                    'margin' : '0 0.5em'
+                                }),
+                                href="",
+                                target="_blank",
+                                id="citationsLink"
+                            ),
+                            html.Button('Show TFs', id='tfsButton', n_clicks=0, style={
+                                'backgroundColor': '#28a745',
+                                'color': 'white',
+                                'border': 'none',
+                                'borderRadius': '0.25em',
+                                'padding': '0.5em 1em',
+                                'cursor': 'pointer',
+                                'margin' : '0 0.5em'
+                            }),
+
+                            html.Button('Citations', id='citationsButton', n_clicks=0, style={
+                                'backgroundColor': '#dc3545',
+                                'color': 'white',
+                                'border': 'none',
+                                'borderRadius': '0.25em',
+                                'padding': '0.5em 1em',
+                                'cursor': 'pointer',
+                                'margin' : '0 0.5em'
+                            }),
+                        ]
+                    ),
                     dash_table.DataTable(
                         id='showProof',
                         style_table={
@@ -804,56 +964,6 @@ app.layout = html.Div([
                             'fontWeight': 'bold'  # Bold font for headers
                         },
                         fixed_rows={'headers': True},  # Fix headers when scrolling vertically
-                    ),
-
-                    html.Div(id='tooltip-text-content', style={
-                            'padding' : '0.2em',
-                            'textAlign': 'left',
-                            'color': 'white',
-                            'backgroundColor': '#444',
-                            'border': '1px solid #555',
-                            'borderRadius': '0.25em',
-                            'maxHeight': '80px',
-                            'overflowY': 'auto',
-                        },
-                    ),
-                    html.Div(
-                        id = 'hoverButtons',
-                        style={
-                            'marginTop': '0.8em',
-                            'display': 'flex',
-                            'justifyContent': 'space-around',
-                            'dispaly' : 'block'
-                        },
-                        children=[
-                            html.Button('Uniprot', id='uniprotButton', n_clicks=0, style={
-                                'backgroundColor': '#0052cc',
-                                'color': 'white',
-                                'border': 'none',
-                                'borderRadius': '0.25em',
-                                'padding': '0.5em 1em',
-                                'cursor': 'pointer',
-                                'margin' : '0 0.5em'
-                            }),
-                            html.Button('Show TFs', id='tfsButton', n_clicks=0, style={
-                                'backgroundColor': '#28a745',
-                                'color': 'white',
-                                'border': 'none',
-                                'borderRadius': '0.25em',
-                                'padding': '0.5em 1em',
-                                'cursor': 'pointer',
-                                'margin' : '0 0.5em'
-                            }),
-                            html.Button('Citations', id='citationsButton', n_clicks=0, style={
-                                'backgroundColor': '#dc3545',
-                                'color': 'white',
-                                'border': 'none',
-                                'borderRadius': '0.25em',
-                                'padding': '0.5em 1em',
-                                'cursor': 'pointer',
-                                'margin' : '0 0.5em'
-                            })
-                        ]
                     )
                 ]
             )
