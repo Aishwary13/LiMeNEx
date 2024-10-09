@@ -39,7 +39,7 @@
 }
 
 #page-content {
-    margin-left: 4em;  /* Keep margin for the collapsed sidebar */
+    padding-left: 4em;  /* Keep margin for the collapsed sidebar */
     transition: margin-left 0.5s;
     z-index: 0;  /* Ensure the content is below the sidebar */
     position: relative;  /* Ensure the content stays in place */

@@ -1,0 +1,17 @@
+enzymaticGene
+regulatingGene/transcriptionFactorGene
+
+
+lipidMetabolite
+nonLipidMetabolite
+nonLipidSubstrate
+lipidSubstrate
+
+--------------------------------------------------
+first_half
+second_half
+
+CATALYSIS
+PHYSICAL_STIMULATION
+
+TRANSCRIPTION

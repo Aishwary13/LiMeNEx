@@ -1,0 +1,149 @@
+Physiological System,Tissue,Types
+Metabolic,adiposetissue,"WAT, adipocytes, hMADs-derived"
+Metabolic,adiposetissue,"BrAT, adipocytes, hMADs-derived"
+Metabolic,adiposetissue,"WAT, adipocytes, SGBS cells"
+Metabolic,adiposetissue,"WAT, adipocytes, hASC-derived"
+Metabolic,kidney,"epithelium, HEK293-T-Rex cells"
+Metabolic,kidney,"epithelium, HEK293 cells"
+Metabolic,kidney,"epithelial cells, RPTEC"
+Metabolic,liver,"epithelium, HepG2 cells"
+Metabolic,pancreas,"duct, epithelium, CFPAC-1 cells"
+Metabolic,skeletalmuscle,HSMMs
+Metabolic,thyroidgland,"parafollicular, MTC, TT cells"
+Blood,erythroidlineage,"erythroblasts, bone marrow"
+Blood,erythroidlineage,"erythroblasts, bone marrow, HEL 92.1.7 cells"
+Blood,erythroidlineage,"erythroid cells, bone marrow"
+Blood,hspcs,"bone marrow, CD34+"
+Blood,megakaryocytelineage,"megakaryoblasts, MEG-01 cells"
+Blood,progenitors,
+Blood,other,
+Cardiovascular,blood,
+Cardiovascular,bonemarrow,
+Cardiovascular,heart,myocytes
+Cardiovascular,heart,"fibroblasts, HCFs"
+Cardiovascular,vasculature,"smooth muscle, whole"
+Cardiovascular,vasculature,"endothelium, HBMECs, 1° cells"
+Cardiovascular,vasculature,"other, HPAFs, 1° cells"
+Cardiovascular,vasculature,"other, AoAFCs, 1° cells"
+Cardiovascular,vasculature,"endothelium, HUVECs, 1° cells"
+Cardiovascular,other,
+Female reproductive,mammarygland,"epithelium, T47D cells"
+Female reproductive,mammarygland,"epithelium, MDA-MB-453 cells"
+Female reproductive,mammarygland,"epithelium, MDA-MB-231 LM2 cells"
+Female reproductive,mammarygland,"epithelium, MCF-10A cells"
+Female reproductive,mammarygland,"epithelium, MDA-MB-231 cells"
+Female reproductive,mammarygland,"epithelium, MCF-7 cells"
+Female reproductive,mammarygland,"other, fibroblasts, HMFs"
+Female reproductive,ovary,
+Female reproductive,oviduct,
+Female reproductive,placenta,HVMFs
+Female reproductive,uterus,"endometrium, epithelium, cervical, HeLa cells"
+Female reproductive,uterus,"cervix, epithelial, HeLa cells"
+Female reproductive,uterus,"endometrium, epithelium, ECC-1 cells"
+Female reproductive,vagina,
+Female reproductive,other,
+Gastrointestinal,bileduct,
+Gastrointestinal,colon,"epithelium, LS180 cells"
+Gastrointestinal,colon,"epithelium, HCT116 cells"
+Gastrointestinal,colon,"epithelium, LoVo cells"
+Gastrointestinal,duodenum,
+Gastrointestinal,esophagus,
+Gastrointestinal,lleum,
+Gastrointestinal,jejunum,
+Gastrointestinal,rectum,
+Gastrointestinal,stomach,"epithelium, AGS cells"
+Gastrointestinal,stomach,"epithelium, KATO III cells"
+Gastrointestinal,other,
+Immune,leukocytes,B lymphocytes
+Immune,leukocytes,T lymphoblasts
+Immune,leukocytes,macrophages
+Immune,leukocytes,promyelocytes
+Immune,leukocytes,lymphocytes
+Immune,leukocytes,T lymphocytes
+Immune,leukocytes,lymphoblasts
+Immune,leukocytes,myeloblasts
+Immune,lymphnode,
+Immune,spleen,
+Immune,thymus,
+Immune,other,
+Male Reproductive,prostate,"epithelium, DU145 cells"
+Male Reproductive,prostate,"epithelium, VCaP cells"
+Male Reproductive,prostate,"epithelium, LNCaP cells"
+Male Reproductive,prostate,"epithelium, LNCaP-abl cells"
+Male Reproductive,testis,
+Male Reproductive,epididymis,
+Male Reproductive,other,
+Neurosensory,pns,
+Neurosensory,sns,
+Neurosensory,cns,"other, glioblastoma cells, U-87 MG cells"
+Neurosensory,cns,"cerebrum, PFSK-1 cells"
+Neurosensory,cns,"cerebellum, astrocytes"
+Neurosensory,cns,"other, neuroblastoma, BE(2)-C cells"
+Neurosensory,cns,"choroid plexus, HCPEpiCs"
+Neurosensory,cns,"other, spinal cord, astrocytes"
+Neurosensory,cns,"other, astrocytes, NHAs"
+Neurosensory,cns,"other, neuroblastoma cells, SK-N-SH cells"
+Neurosensory,sensory,"eye, globe, retinoblastoma, WERI-Rb-1 cells"
+Neurosensory,sensory,"eye, retina, HRPEpiC cells"
+Respiratory,lung,"other, HCC95 cells"
+Respiratory,lung,"epithelium, SAECs"
+Respiratory,lung,"fibroblasts, fetal, Ag04450 cells"
+Respiratory,lung,"fibroblasts, NHLFs"
+Respiratory,lung,"other, HPFs"
+Respiratory,lung,"epithelium, A549 cells"
+Respiratory,lung,"fibroblasts, IMR-90 cells"
+Skeletal,bone,"osteoblasts, SaOS2 cells"
+Skeletal,bone,"fibroblasts, SJSA-1 cells"
+Skeletal,bone,"osteoblasts, U2OS cells"
+Skeletal,bone,"osteoblasts, unspecified"
+Skeletal,cartilage,
+Other,adrenalgland,
+Other,bladder,
+Other,embryonictissue,endodermal cells
+Other,fibroblasts,
+Other,lung,
+Other,miscellaneous,"other, fibroblasts, gingival, Ag09319 cells"
+Other,skin,"epidermis, keratinocytes, 1° cells"
+Other,skin,"fibroblasts, HFFCs"
+Other,skin,"fibroblasts, Ag04449 cells"
+Other,skin,"fibroblasts, Ag10803 cells"
+Other,skin,"fibroblasts, BJ cells"
+Other,skin,"fibroblasts, Ag09309 cells"
+Other,skin,"fibroblasts, epidermal"
+Other,skin,"epidermis, NHEKs"
+Other,skin,"epidermis, NHDFs"
+Other,stemcells,"multipotent, MSCs"
+Other,stemcells,"pluripotent, ESCs, Cyt49 cells"
+Other,stemcells,"pluripotent, NT2-D1 cells"
+Other,stemcells,"pluripotent, ESCs, HUES64 cells"
+Other,stemcells,"pluripotent, ESCs, H1 cells"
+Female reproductive,mammarygland,"epithelium, ZR-75-1 cells"
+Immune,leukocytes,"lymphoid lineage, unspecified, MS1 cells"
+Gastrointestinal,colon,"epithelium, Caco-2 cells"
+Female reproductive,mammarygland,"epithelium, 1° HMEC cells"
+Metabolic,kidney,"epithelium, HREs"
+Male reproductive,prostate,"epithelium, LNCaP-1F5 cells"
+Metabolic,pancreas,"duct, epithelium, PANC-1 cells"
+Metabolic,adiposetissue,"WAT, abdominal, stromal cells"
+Immune,leukocytes,monocytes
+Metabolic,adiposetissue,"WAT, adiocytes, hASC-derived"
+Male reproductive,prostate,"epithelium, LNCaP-C4-2B cells"
+Gastrointestinal,stomach,"epithelium, YCC3 cells"
+Metabolic,pancreas,"other, whole pancreas"
+Gastrointestinal,esophagus,"epithelium, HEEpiCs"
+Gastrointestinal,esophagus,"epithelium, KYSE-70 cells"
+Neurosensory,cns,"other, astrocytoma, SF268 cells"
+Other,stemcells,"pluripotent, iPSCs"
+Neurosensory,cns,"other, neuroblastoma cells, SH-SY5Y cells"
+Other,stemcells,"pluripotent, ESCs, ESC-derived mesodermal cells"
+Metabolic,kidney,"cortex, whole"
+Respiratory,lung,"epithelium, bronchus, BEAS-2B cells"
+Respiratory,lung,"fibroblasts, WI-38 cells"
+Other,skin,"epidermis, MDAH087 cells"
+Blood,megakaryocytelineage,"megakaryoblasts, AMKL, CHRF-288-11 cells"
+Neurosensory,cns,"other, neuroblastoma cells, SK-N-MC cells"
+Metabolic,pancreas, ESC-derived pancreatic endoderm
+Metabolic,pancreas,ESC-derived pancreatic endoderm
+Other,skin,"epidermis, melanocytes"
+Metabolic,kidney,"epithelium, 786-O cells"
+Other,stemcells,"pluripotent, ESCs, H9 cells"

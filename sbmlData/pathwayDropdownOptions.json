@@ -1,0 +1,13 @@
+{
+    "PathwayOptions": {
+        "Fatty Acid Synthesis" : "fattyAcidSynthesis",
+        "Beta Oxidation Fatty Acid" : "betaOxidationFattyAcid",
+        "Arachidonic Metabolism" : "arachidonicMetabolism",
+        "Omega3 Metabolism" : "omega3Metabolism",
+        "Peroxisomal Metabolism" : "peroxisomalMetabolism",
+        "Carnitine Metabolism" : "carnitineMetabolism",
+        "Triglyceride Synthesis" : "triglycerideSynthesis",
+        "Triglyceride Degradation" : "triglycerideDegradation"
+    },
+    "physiologicalOptions": ["Metabolic","Blood","Cardiovascular","Female reproductive","Gastrointestinal","Immune","Male Reproductive","Neurosensory","Respiratory","Skeletal","Other"]
+}
