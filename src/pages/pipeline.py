@@ -1,6 +1,8 @@
 from dash import callback, dcc, html
 from dash.dependencies import Input, Output, State
 
+from pages.subSteps import part1,part2,part3,part4
+
 # Custom CSS for the progress bar
 layout = html.Div([
     html.Div([
@@ -31,7 +33,8 @@ layout = html.Div([
     [Output(f'step-{i}', 'className') for i in range(1, 5)] +
     [Output(f'arrow-{i}', 'className') for i in range(1, 4)] +
     [Output('next-button','disabled')] +
-    [Output('prev-button','disabled')],
+    [Output('prev-button','disabled')] +
+    [Output('content', 'children')],
     [Input('next-button', 'n_clicks'),
      Input('prev-button', 'n_clicks')],
     [State(f'step-{i}', 'className') for i in range(1, 5)] +
@@ -39,7 +42,7 @@ layout = html.Div([
 )
 def update_progress_bar(next_clicks, prev_clicks, *classes):
     step_index = next_clicks - prev_clicks
-    print(step_index)
+    # print(step_index)
     step_classes = []
     arrow_classes = []
 
@@ -65,6 +68,14 @@ def update_progress_bar(next_clicks, prev_clicks, *classes):
     elif step_index == 4:
         btnDisabled = [True,False]
     
+    if step_index == 0:
+        content = part1.layout  # Use part1 from subSteps
+    elif step_index == 1:
+        content = part2.layout  # Use part2 from subSteps
+    elif step_index == 2:
+        content = part3.layout  # Use part3 from subSteps
+    else:
+        content = part4.layout  # Use part4 from subSteps
 
-    return step_classes + arrow_classes + btnDisabled
+    return step_classes + arrow_classes + btnDisabled + [content]
 

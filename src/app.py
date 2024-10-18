@@ -23,7 +23,7 @@ dash_app = dash.Dash(__name__,external_stylesheets=[dbc.themes.BOOTSTRAP,font_aw
 
 cyto.load_extra_layouts()
 
-from pages import home, contact,Analysis,sbml_network
+from pages import home, contact,pipeline,sbml_network
 dataBasePath= sbml_network.dataBasePath
 
 link_style = {
@@ -107,7 +107,7 @@ def display_page(pathname):
     elif pathname == '/Contact':
         return contact.layout
     elif pathname == '/DiffAnalysis':
-        return Analysis.layout
+        return pipeline.layout
 
 @dash_app.long_callback(
     Output('cytoscape', 'elements',allow_duplicate=True),

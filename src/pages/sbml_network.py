@@ -941,7 +941,7 @@ layout = html.Div([
                                 'margin' : '0 0.5em'
                             }),
 
-                            html.Button('Citations', id='citationsButton', n_clicks=0, style={
+                            html.Button('Evidence', id='citationsButton', n_clicks=0, style={
                                 'backgroundColor': '#dc3545',
                                 'color': 'white',
                                 'border': 'none',
